@@ -1,0 +1,10 @@
+1) Middleware
+    - redux Middleware
+    - devtools
+    - router
+    - logger
+    - enhanced store
+
+2) Root reducer
+3) Root saga
+4) Try creating first saga and check if we didnt forget anything
