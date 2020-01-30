@@ -6,23 +6,50 @@ import uuid from "uuid";
 const initialState = Map({
   cardList: 
   [{
-    title: "to do",
-    id: uuid.v4(),
+    id: 0,
     cards: [ 
     ]
   },
   {
-    title: "doing",
-    id: uuid.v4(),
+    id:1,
     cards: [ 
     ]
   },
   {
-    title: "done",
-    id: uuid.v4(),
+    id:2,
     cards: [ 
     ]
   },
+  {
+    id:3,
+    cards: [ 
+    ]
+  },
+  {
+    id:4,
+    cards: [ 
+    ]
+  },{
+    id:5,
+    cards: [ 
+    ]
+  },{
+    id:6,
+    cards: [ 
+    ]
+  },
+  {
+    id:7,
+    cards: [ 
+    ]
+  },{
+    id:8,
+    cards: [ 
+    ]
+  },
+
+
+
   ]
 });
 //{ time: '', message: '' }

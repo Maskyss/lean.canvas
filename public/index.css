@@ -22,6 +22,8 @@ body {
   background: #0e0e0e;
 
   overflow-x: hidden;
+
+ 
 }
 main {
   overflow: hidden;
@@ -40,3 +42,7 @@ a {
     display: block;
   }
 }
+
+
+
+

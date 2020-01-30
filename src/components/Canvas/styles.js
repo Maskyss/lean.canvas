@@ -5,7 +5,7 @@ const Header = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-margin-bottom:5rem;
+  margin-bottom: 5rem;
 `;
 const Button = styled.a`
   display: flex;
@@ -90,53 +90,75 @@ const Container = styled.div`
   }
 `;
 const Segment = styled.div`
-  background: #3e3e3e;
-  width:30rem;
-  padding:3rem 2rem;
-  margin-bottom:1%;
-
-  
+  background: #292929;
+  width: 30rem;
+  margin-bottom: 1%;
+  position: relative;
 `;
 const WithImage = styled.div`
-display:flex;
-align-items: center;
-
+  display: flex;
+  align-items: center;
+  margin: 3rem 2rem 1rem;
 `;
 const Image = styled.img`
- margin-right:8%;
-
-`; 
+  margin-right: 8%;
+`;
 
 const Title = styled.div`
-color: ${themes.colors.colorWhite};
+  color: ${themes.colors.colorWhite};
   text-transform: uppercase;
 
   font-weight: bold;
   font-size: 1.7rem;
   line-height: 132.5%;
-
 `;
 const BlockSegments = styled.div`
-display:flex;
+  display: flex;
 
-.long{
-  width:50%;
-  height:28rem;
-}
+  .long {
+    width: 50%;
+    height: 28rem;
+  }
+`;
+
+const SegmDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 30rem;
+  margin: 0 1%;
+  .inDiv {
+    margin-bottom: 5%;
+    width: 100%;
+    height: 30rem;
+  }
+`;
+
+const StyledTextArea = styled.textarea`
+  resize: none;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: #3e3e3e;
+  color: #969696;
+  padding: 1rem;
+  margin-bottom:0.5rem;
+
+`;
+
+const ButtonController= styled.div`
+  padding:0.5rem;
+  margin-right:0.5rem;
+  background:${themes.colors.colorBlue1};
+  cursor: pointer;
+  color:white;
+  :hover{
+    background:${themes.colors.colorBlue2};}
+
 `
-
-const SegmDiv =styled.div`
-display: flex; 
-flex-direction: column; width:30rem;
-margin:0 1%;
-.inDiv{
-  margin-bottom:5%;
-  width:100%;
-  height:30rem;
-}
-
-
-`
+const Block = styled.div`
+  width: 95%;
+  margin: auto;
+`;
 export {
   Container,
   MainTitle,
@@ -146,5 +168,7 @@ export {
   Segment,
   WithImage,
   Image,
-  Title,BlockSegments,SegmDiv
+  Title,
+  BlockSegments,
+  SegmDiv,StyledTextArea,ButtonController,Block
 };

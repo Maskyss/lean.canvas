@@ -22,10 +22,9 @@ export function* addCard({ payload }) {
     });
 
     yield put(actionsCard.setList(newState));
-      localStorage.setItem('cardList', JSON.stringify(newState))
-
+    localStorage.setItem("cardList", JSON.stringify(newState));
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 
@@ -43,70 +42,69 @@ export function* deleteCard({ payload }) {
     });
 
     yield put(actionsCard.setList(newState));
-      localStorage.setItem('cardList', JSON.stringify(newState))
-
+    localStorage.setItem("cardList", JSON.stringify(newState));
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 
 export function* editCard({ payload }) {
-	try {
-	  const [{ id, listID,cardText }, ...state] = payload;
-  
-	  const newState = state.map(list => {
-        if (list.id === listID) {
-          const newCards = list.cards.map(card => {
-            if (card.id === id) {
-              card.text = cardText;
-              return card;
-            }
-            return card;
-          });
-          return { ...list, cards: newCards };
-        }
-        return list;
-      });
-  
-    yield put(actionsCard.setList(newState));
-      localStorage.setItem('cardList', JSON.stringify(newState))
-    
-	} catch (err) {
-    console.log(err)
-  }
-  }
+  try {
+    const [{ id, listID, cardText }, ...state] = payload;
 
-  export function* dragCard({ payload }) {
-    try {
-      const [{  droppableIdStart,
+    const newState = state.map(list => {
+      if (list.id === listID) {
+        const newCards = list.cards.map(card => {
+          if (card.id === id) {
+            card.text = cardText;
+            return card;
+          }
+          return card;
+        });
+        return { ...list, cards: newCards };
+      }
+      return list;
+    });
+
+    yield put(actionsCard.setList(newState));
+    localStorage.setItem("cardList", JSON.stringify(newState));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function* dragCard({ payload }) {
+  try {
+    const [
+      {
+        droppableIdStart,
         droppableIdEnd,
         droppableIndexEnd,
         droppableIndexStart,
-        type}, ...state] = payload;
+        type
+      },
+      ...state
+    ] = payload;
 
-        const newState = state;
+    const newState = state;
+    console.log(payload)
+ 
+    if (droppableIdStart === droppableIdEnd) {
+      const list = state.find(list =>  droppableIdStart===list.id.toString())
+      const card = list.cards.splice(droppableIndexStart, 1);
+      list.cards.splice(droppableIndexEnd, 0, ...card);
 
-        if (type === "list") {
-          const list = newState.splice(droppableIndexStart, 1);
-          newState.splice(droppableIndexEnd, 0, ...list);
-          return newState;
-        }
-        if (droppableIdStart === droppableIdEnd) {
-          const list = state.find(list => droppableIdStart === list.id);
-          const card = list.cards.splice(droppableIndexStart, 1);
-          list.cards.splice(droppableIndexEnd, 0, ...card);
-        }
-  
-        if (droppableIdStart !== droppableIdEnd) {
-          const listStart = state.find(list => droppableIdStart === list.id);
-          const card = listStart.cards.splice(droppableIndexStart, 1);
-          const listEnd = state.find(list => droppableIdEnd === list.id);
-          listEnd.cards.splice(droppableIndexEnd, 0, ...card);
-        }
-      yield put(actionsCard.setList(newState));
-      localStorage.setItem('cardList', JSON.stringify(newState))
-
-    } catch (err) {
-      console.log(err)
     }
+
+    if (droppableIdStart !== droppableIdEnd) {
+      const listStart = state.find(list => droppableIdStart === list.id.toString());
+      const card = listStart.cards.splice(droppableIndexStart, 1);
+      const listEnd = state.find(list => droppableIdEnd === list.id.toString());
+      listEnd.cards.splice(droppableIndexEnd, 0, ...card);
     }
+    yield put(actionsCard.setList(newState));
+    localStorage.setItem("cardList", JSON.stringify(newState));
+  } catch (err) {
+    console.log(err);
+  }
+}
