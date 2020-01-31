@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Container,
-  MainTitle,
-  Header,
-  Button,
-
-} from "./styles";
+import { Container, MainTitle, Header, Button , BorderButton} from "./styles";
 import { Portal } from "react-portal";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { actionsCard } from "../../bus/card/actions";
@@ -16,22 +10,22 @@ import { connect } from "react-redux";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-
-
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import BlockSegmentsComponent from "./BlockSegments";
 
+
+import trash from '../../static/trash.svg'
+
 const mapStateToProps = state => ({
   cardList: state.updateCardReducer.get("cardList")
-
 });
 const mapDispatchToProps = {
   dragHappaned: actionsCard.dragHappaned,
   getList: actionsCard.getList
 };
 
-const Canvas = ({ dragHappaned,  getList,cardList }) => {
+const Canvas = ({ dragHappaned, getList, cardList }) => {
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
 
@@ -113,17 +107,19 @@ const Canvas = ({ dragHappaned,  getList,cardList }) => {
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
-          <div style={{ display: "flex" }}>
+          <BorderButton >
             <Button black={true} onClick={_mobileShare}>
               Share
             </Button>
             <Button
-              style={{ marginRight: 0 }}
               onClick={_toggleVisibilitySendPdf}
             >
               Send PDF
             </Button>
-          </div>
+            <Button black={true} onClick={_mobileShare} className="trash">
+              <img src={trash}/>
+            </Button>
+          </BorderButton>
         </Header>
         <div id="printable">
           <DragDropContext onDragEnd={onDragEnd}>
@@ -132,9 +128,7 @@ const Canvas = ({ dragHappaned,  getList,cardList }) => {
               direction="horizontal"
               type="list"
             >
-              {provided => (
-                <BlockSegmentsComponent provided={provided}/>
-              )}
+              {provided => <BlockSegmentsComponent provided={provided} />}
             </Droppable>
           </DragDropContext>
         </div>

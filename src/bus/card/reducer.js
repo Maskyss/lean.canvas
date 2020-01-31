@@ -8,6 +8,7 @@ const initialState = Map({
   [{
     id: 0,
     cards: [ 
+      
     ]
   },
   {

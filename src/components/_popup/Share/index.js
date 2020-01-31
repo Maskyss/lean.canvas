@@ -10,10 +10,9 @@ import { ImageLink } from "./styles";
 
 import PopupStandard from "../../_shared/PopupStandard";
 
-import telegram from "../../../static/Telegram.svg";
-import facebook from "../../../static/Facebook.svg";
-import twitter from "../../../static/Twitter.svg";
-import linkedin from "../../../static/Linkedin.svg";
+import telegram from "../../../static/media/Telegram.svg";
+import facebook from "../../../static/media/Facebook.svg";
+import linkedin from "../../../static/media/Linkedin.svg";
 
 const mapStateToProps = state => ({
   // cardList: state.updateCardReducer.get("cardList")
@@ -36,8 +35,6 @@ const ShareComponent = ({ togglePopup }) => {
     navigator.clipboard.writeText(code);
   };
   const imageSrc = [
-    { image: twitter, link: "https://twitter.com/intent/tweet?text=" },
-
     {
       image: facebook,
       link:

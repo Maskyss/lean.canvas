@@ -14,15 +14,19 @@ const mapDispatchToProps = {};
 
 const BlockSegmentsComponent = ({ cardList, provided }) => {
   return (
-    <>
-      <BlockSegments {...provided.droppableProps} ref={provided.innerRef}>
+    <div {...provided.droppableProps} ref={provided.innerRef}>
+      <BlockSegments >
         {segments.map((key, i) => {
           return key.length === 1 ? (
-            <SegmentComponent
-              item={key[0]}
-              listID={key[0].id}
-              cards={cardList[key[0].id].cards}
-            />
+            key.map((key0, ind) => {
+              return (
+                <SegmentComponent
+                  item={key0}
+                  listID={key0.id}
+                  cards={cardList[key0.id].cards}
+                />
+              );
+            })
           ) : (
             <SegmDiv>
               {key.map((key0, ind) => {
@@ -52,7 +56,7 @@ const BlockSegmentsComponent = ({ cardList, provided }) => {
           );
         })}
       </BlockSegments>
-    </>
+      </div>
   );
 };
 

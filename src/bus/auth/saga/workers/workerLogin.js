@@ -22,7 +22,6 @@ export function* login({ payload }) {
 			throw new Error(data.error);
 		}
 
-		console.log(data);
 		const { token, refreshToken } = data.tokens;
 		yield apply(localStorage, localStorage.setItem, ['token', token]);
 		yield apply(localStorage, localStorage.setItem, ['refreshToken', refreshToken]);

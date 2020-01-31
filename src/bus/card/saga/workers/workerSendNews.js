@@ -87,13 +87,11 @@ export function* dragCard({ payload }) {
     ] = payload;
 
     const newState = state;
-    console.log(payload)
  
     if (droppableIdStart === droppableIdEnd) {
       const list = state.find(list =>  droppableIdStart===list.id.toString())
       const card = list.cards.splice(droppableIndexStart, 1);
       list.cards.splice(droppableIndexEnd, 0, ...card);
-
     }
 
     if (droppableIdStart !== droppableIdEnd) {
@@ -101,6 +99,7 @@ export function* dragCard({ payload }) {
       const card = listStart.cards.splice(droppableIndexStart, 1);
       const listEnd = state.find(list => droppableIdEnd === list.id.toString());
       listEnd.cards.splice(droppableIndexEnd, 0, ...card);
+
     }
     yield put(actionsCard.setList(newState));
     localStorage.setItem("cardList", JSON.stringify(newState));

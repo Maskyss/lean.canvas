@@ -1,12 +1,12 @@
-import img0 from "../../static/0.svg";
-import img01 from "../../static/01.svg";
-import img1 from "../../static/1.svg";
-import img2 from "../../static/2.svg";
-import img3 from "../../static/3.svg";
-import img4 from "../../static/4.svg";
-import img5 from "../../static/5.svg";
-import img6 from "../../static/6.svg";
-import img7 from "../../static/7.svg";
+import img0 from "../../static/icons/0.svg";
+import img01 from "../../static/icons/01.svg";
+import img1 from "../../static/icons/1.svg";
+import img2 from "../../static/icons/2.svg";
+import img3 from "../../static/icons/3.svg";
+import img4 from "../../static/icons/4.svg";
+import img5 from "../../static/icons/5.svg";
+import img6 from "../../static/icons/6.svg";
+import img7 from "../../static/icons/7.svg";
 
 const segments = [
   [
