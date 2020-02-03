@@ -1,23 +1,25 @@
 import styled from "styled-components";
 import { themes } from "../../theme/theme";
+import ContentEditable from "react-contenteditable";
+
 const Header = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5rem;
-  padding: 10rem 10%;
+  padding: 10rem 10% 0;
 
   @media ${themes.device.laptopL} {
-    padding: 10rem 15%;
+    padding: 10rem 15% 0;
   }
 
   @media ${themes.device.laptopS} {
-    padding: 10rem 10% 1rem;
+    padding: 10rem 10% 0;
   }
 
   @media ${themes.device.tabletS} {
-    padding: 7rem 5% 4rem;
+    padding: 7rem 5% 0;
   }
 `;
 const Button = styled.a`
@@ -97,16 +99,16 @@ const Segment = styled.div`
   position: relative;
   @media ${themes.device.tablet} {
     width: 100%;
-    height:28rem;
+    height: 28rem;
   }
 
   .droppable {
-    height: 78%;
+    height: 85%;
     margin: 0 3%;
     overflow: scroll;
+    overflow-x:hidden;
     @media ${themes.device.tablet} {
-      height: 57%;
-
+      height: 70%;
     }
   }
 `;
@@ -143,7 +145,7 @@ const BlockSegments = styled.div`
   }
   @media ${themes.device.tablet} {
     padding: 0 2%;
-    flex-direction:column;
+    flex-direction: column;
   }
 
   .long {
@@ -152,15 +154,15 @@ const BlockSegments = styled.div`
     @media ${themes.device.laptop} {
       height: 28rem;
     }
-    
+
     @media ${themes.device.tablet} {
       width: 100%;
-
     }
     .droppable {
       height: 55%;
       margin: 0 3%;
       overflow: scroll;
+      overflow-x:hidden;
     }
   }
 `;
@@ -181,24 +183,59 @@ const SegmDiv = styled.div`
     @media ${themes.device.tablet} {
       margin-bottom: 1%;
       height: 28rem;
-    
     }
 
     .droppable {
-      height: 57%;
+      height: 70%;
       margin: 0 3%;
       overflow: scroll;
+      overflow-x:hidden;
     }
   }
 `;
 
-const StyledTextArea = styled.textarea`
-  resize: none;
+const StyledTextArea = styled(ContentEditable)`
+  padding: 0 0.5rem;
   width: 100%;
-  outline: none;
-  border: none;
   background: #3e3e3e;
   color: #969696;
+  b{
+    font-weight:600;
+  }
+  b{
+    u{
+      font-weight:600;
+    }
+  }
+  b{
+    i{
+      font-weight:600;
+    }
+  }
+  u{
+    b{
+      font-weight:600;
+    }
+  }
+  u{
+    b{
+      i{
+      font-weight:600;}
+    }
+  }
+  i{
+    b{
+      font-weight:600;
+    }
+  }
+  
+  i{
+    b{
+      u{
+        font-weight:600;
+      }
+    }
+  }
 `;
 
 const ButtonController = styled.div`
@@ -223,11 +260,60 @@ const BorderButton = styled.div`
     margin-right: 0;
     @media ${themes.device.laptop} {
       width: 4.5rem !important;
-      img{
-        width:1rem;
+      img {
+        width: 1rem;
       }
     }
   }
+`;
+
+const CardDiv = styled.div`
+  align-items: center;
+  background: #3e3e3e;
+  color: #969696;
+  padding: 1rem;
+  padding-right: 2rem;
+  display: flex;
+
+  .deleteBtnN {
+    display: none;
+
+    height: 1rem;
+  }
+  .deleteBtnV {
+    display: block;
+    position: absolute;
+    right: 1.3rem;
+    top: 1rem;
+  }
+
+  :hover {
+    // padding-right: 0rem;
+
+    .deleteBtnV {
+      display: block;
+      position: absolute;
+      right: 1.3rem;
+      top: 1rem;
+    }
+    .deleteBtnN {
+      display: block;
+      position: absolute;
+      right: 1.3rem;
+      top: 1rem;
+    }
+  }
+`;
+const DotsImg = styled.img`
+  margin-right: 0.5rem;
+  ${props =>
+    props.isDragging
+      ? `  
+filter: invert(45%) sepia(42%) saturate(4229%) hue-rotate(190deg) brightness(94%) contrast(91%);
+ 
+  `
+      : `
+  `};
 `;
 export {
   Container,
@@ -244,5 +330,7 @@ export {
   StyledTextArea,
   ButtonController,
   Block,
-  BorderButton
+  BorderButton,
+  CardDiv,
+  DotsImg
 };

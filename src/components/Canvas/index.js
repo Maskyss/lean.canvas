@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, MainTitle, Header, Button , BorderButton} from "./styles";
+import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 import { Portal } from "react-portal";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { actionsCard } from "../../bus/card/actions";
 
 import html2pdf from "html2pdf.js";
@@ -14,8 +14,7 @@ import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import BlockSegmentsComponent from "./BlockSegments";
 
-
-import trash from '../../static/trash.svg'
+import trash from "../../static/trash.svg";
 
 const mapStateToProps = state => ({
   cardList: state.updateCardReducer.get("cardList")
@@ -107,29 +106,19 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
-          <BorderButton >
+          <BorderButton>
             <Button black={true} onClick={_mobileShare}>
               Share
             </Button>
-            <Button
-              onClick={_toggleVisibilitySendPdf}
-            >
-              Send PDF
-            </Button>
+            <Button onClick={_toggleVisibilitySendPdf}>Send PDF</Button>
             <Button black={true} onClick={_mobileShare} className="trash">
-              <img src={trash}/>
+              <img src={trash} />
             </Button>
           </BorderButton>
         </Header>
         <div id="printable">
           <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable
-              droppableId="all-lists"
-              direction="horizontal"
-              type="list"
-            >
-              {provided => <BlockSegmentsComponent provided={provided} />}
-            </Droppable>
+            <BlockSegmentsComponent />
           </DragDropContext>
         </div>
       </Container>

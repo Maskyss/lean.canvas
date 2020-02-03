@@ -1,4 +1,4 @@
-import { put, apply } from "redux-saga/effects";
+import { put } from "redux-saga/effects";
 import { actionsCard } from "../../actions";
 import uuid from "uuid";
 
@@ -81,7 +81,6 @@ export function* dragCard({ payload }) {
         droppableIdEnd,
         droppableIndexEnd,
         droppableIndexStart,
-        type
       },
       ...state
     ] = payload;
