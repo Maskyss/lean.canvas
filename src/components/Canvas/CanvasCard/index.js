@@ -1,39 +1,14 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import $ from "jquery";
 
-import { actionsCard } from "../../bus/card/actions";
-import { CardDiv, DotsImg } from "./styles";
-import CanvasForm from "./CanvasForm";
+import { actionsCard } from "../../../bus/card/actions";
+import { CardDiv, DotsImg, CardContainer, DeleteButton } from "./styles";
+import CanvasForm from "../CanvasForm/index";
 
-import trash from "../../static/trash.svg";
-import dots from "../../static/dots.svg";
-
-const CardContainer = styled.div`
-  margin-bottom: 0.5rem;
-  position: relative;
-  max-width: 100%;
-  word-break: break-word;
-
-  ${props =>
-    props.isDragging
-      ? `border:1px solid #1B85E5;
-    box-shadow: 5px 5px 15px -5px rgba(27,133,229,0.3);  
-   
-    `
-      : `border:1px solid #3e3e3e;
-    box-shadow: none;
-    `};
-`;
-
-const DeleteButton = styled.div`
-  cursor: pointer;
-  &:hover {
-    opacity: 0.5;
-  }
-`;
+import trash from "../../../static/trash.svg";
+import dots from "../../../static/dots.svg";
 
 const mapStateToProps = state => ({
   cardList: state.updateCardReducer.get("cardList")
@@ -53,19 +28,11 @@ const CanvasCard = React.memo(
     const [coords, setCoords] = useState([0, 0]);
 
     function showSelection() {
-      var e = window.event;
-      var posX = e.clientX - $("#border").offset().left;
-      var posY = e.clientY - $("#border").offset().top;
-
       if (window.getSelection().toString() !== "") {
         setSelect(true);
         const parentEl = window.getSelection().anchorNode.parentElement;
 
-        if (posY > 0) {
-          setCoords([posY + 20 + "px",posX + "px"]);
-        } else {
-          setCoords([parentEl.offsetHeight + "px", 5 + "px"]);
-        }
+        setCoords([parentEl.offsetHeight + 10 + "px", 5 + "px"]);
       } else {
         setSelect(false);
       }
@@ -110,6 +77,7 @@ const CanvasCard = React.memo(
                 <DotsImg isDragging={snapshot.isDragging} src={dots} />
 
                 <CanvasForm
+                  white="white"
                   cardText={cardText}
                   handleChange={handleChange}
                   showSelection={showSelection}
@@ -122,7 +90,7 @@ const CanvasCard = React.memo(
                   className={isEditing ? "deleteBtnV" : "deleteBtnN"}
                   onMouseDown={handleDeleteCard}
                 >
-                  <img style={{ width: "1rem" }} src={trash} alt='trash'/>
+                  <img style={{ width: "1rem" }} src={trash} alt="trash" />
                 </DeleteButton>
               </CardDiv>
               {provided.placeholder}

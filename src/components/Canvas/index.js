@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 import { Portal } from "react-portal";
 import { DragDropContext } from "react-beautiful-dnd";
+
 import { actionsCard } from "../../bus/card/actions";
 
 import html2pdf from "html2pdf.js";
@@ -10,9 +10,14 @@ import { connect } from "react-redux";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
+import BlockSegmentsComponent  from "./BlockSegments/index";
+
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
-import BlockSegmentsComponent from "./BlockSegments";
+import DeleteCanva from "../_popup/DeleteCanva";
+
+
+import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 
 import trash from "../../static/trash.svg";
 
@@ -27,6 +32,7 @@ const mapDispatchToProps = {
 const Canvas = ({ dragHappaned, getList, cardList }) => {
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
+  const [deleteVisible, setDeleteVisible] = useState(false);
 
   useEffect(() => {
     getList();
@@ -85,20 +91,13 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
 
     setSendPdf(!sendPdf);
   };
-
-  const _mobileShare = e => {
-    const href = window.location.origin;
+  const _toggleVisibilityDelete = e => {
     const { id } = e.target;
 
-    try {
-      navigator.share({
-        url: href,
-        text: "Fulcrum",
-        title: "Fulcrum"
-      });
-    } catch (err) {
-      _toggleVisibilityShare(e);
+    if (deleteVisible && id !== "delete") {
+      return null;
     }
+    setDeleteVisible(!deleteVisible);
   };
 
   return (
@@ -107,11 +106,15 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
           <BorderButton>
-            <Button black={true} onClick={_mobileShare}>
+            <Button black={true} onClick={_toggleVisibilityShare}>
               Share
             </Button>
             <Button onClick={_toggleVisibilitySendPdf}>Send PDF</Button>
-            <Button black={true} onClick={_mobileShare} className="trash">
+            <Button
+              black={true}
+              onClick={_toggleVisibilityDelete}
+              className="trash"
+            >
               <img src={trash} />
             </Button>
           </BorderButton>
@@ -131,6 +134,11 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
       {sendPdf && (
         <Portal>
           <SendPdfComponent togglePopup={_toggleVisibilitySendPdf} />
+        </Portal>
+      )}
+      {deleteVisible && (
+        <Portal>
+          <DeleteCanva togglePopup={_toggleVisibilityDelete} />
         </Portal>
       )}
     </>

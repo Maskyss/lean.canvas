@@ -6,7 +6,7 @@ import {
   BorderContainer,
   Button,
 } from "../mainStyles";
-import { ImageLink } from "./styles";
+import { ImageLink,DivShareMedia } from "./styles";
 
 import PopupStandard from "../../_shared/PopupStandard";
 
@@ -23,11 +23,14 @@ const mapDispatchToProps = {
 };
 const ShareComponent = ({ togglePopup }) => {
   const [copy, setCopy] = useState(false);
+  const [mobile, setmobile] = useState(false);
+
   const [mainLink, setMainLink] = useState("");
   const [code, setCode] = useState("k21jisru14141");
 
   useEffect(() => {
     setMainLink(window.location.host);
+    setmobile(window.screen.width<=530)
   }, []);
 
   const _copyText = () => {
@@ -38,9 +41,10 @@ const ShareComponent = ({ togglePopup }) => {
     {
       image: facebook,
       link:
-        "https://www.facebook.com/dialog/send?app_id=1390387391030778&display=popup&redirect_uri=" +
-        mainLink +
-        "&link="
+        "https://www.facebook.com/sharer/sharer.php?u="+"https%3A%2F%2Ffulcrum.rocks%2Fblog%2Fwhy-israeli-companies-should-be-outsourcing-to-ukraine"
+        //  +
+        // mainLink +
+        // "&link="
     },
 
     {
@@ -49,7 +53,8 @@ const ShareComponent = ({ togglePopup }) => {
     },
     {
       image: linkedin,
-      link: ""
+      link: "http://www.linkedin.com/shareArticle?mini=true&url="+
+      "https%3A%2F%2Ffulcrum.rocks%2Fblog%2Fwhy-israeli-companies-should-be-outsourcing-to-ukraine"+"&"+"title="+"https%3A%2F%2Ffulcrum.rocks%2Fblog%2Fwhy-israeli-companies-should-be-outsourcing-to-ukraine"
     }
   ];
 
@@ -64,16 +69,35 @@ const ShareComponent = ({ togglePopup }) => {
     funcAction: _copyText,
     input:false
   };
-
+  const _mobileShare = e => {
+    const href = window.location.origin;
+    const { id } = e.target;
+    try{
+      navigator.share({
+        url: href,
+        text: "Fulcrum",
+        title: "Fulcrum"
+      });}
+      catch(err){
+        togglePopup(e)
+      }
+   
+  };
   return (
     <BorderContainer onClick={togglePopup} id="share">
       <Container style={{ padding: "4rem 5rem 3rem" }}>
         <PopupStandard {...arrPopup} />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
+        <DivShareMedia >
+         {mobile?
+         <Button  style={{marginLeft:0}} blue onClick={e => _mobileShare(e)}>
+        Share media
+       </Button>
+         : <div>
             {imageSrc.map((item, i) => {
               return (
                 <ImageLink
+                target="_blank"
+                rel="noopener noreferrer"
                   style={
                     i === 0
                       ? { marginLeft: 0, backgroundColor: item.color }
@@ -86,11 +110,11 @@ const ShareComponent = ({ togglePopup }) => {
                 </ImageLink>
               );
             })}
-          </div>
-          <Button blue onClick={() => _copyText()}>
+          </div>}
+          <Button id='copy' blue onClick={() => _copyText()}>
             {copy ? "Copied" : "Copy link"}
           </Button>
-        </div>
+        </DivShareMedia>
       </Container>
     </BorderContainer>
   );

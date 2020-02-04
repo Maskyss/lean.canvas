@@ -24,6 +24,10 @@ const ImageLink = styled.a`
       filter: brightness(3);
     }
   }
+  @media (max-width: 600px) {
+      width: 5rem;
+      height: 5rem;
+    }
   @media ${themes.device.tablet} {
     float: left;
   }
@@ -31,11 +35,16 @@ const ImageLink = styled.a`
     margin: 0 0.5rem;
   }
 
-  @media (max-width: 385px) {
-    width: 4rem;
-    height: 4rem;
-  }
+  // @media (max-width: 385px) {
+  //   width: 4rem;
+  //   height: 4rem;
+  // }
 `;
 
-
-export { ImageLink};
+const DivShareMedia =styled.div`
+display: flex; justify-content: space-between;    align-items: center; 
+@media ${themes.device.tabletS} {
+  justify-content: center;
+}
+`
+export { ImageLink,DivShareMedia};

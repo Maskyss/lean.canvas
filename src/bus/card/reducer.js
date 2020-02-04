@@ -7,7 +7,7 @@ const initialState = Map({
   cardList: [
     {
       id: 0,
-      cards: [{ title: "ssss", id: uuid.v4() }]
+      cards: [{ title: "example", id: uuid.v4() }]
     },
     {
       id: 1,

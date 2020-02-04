@@ -3,6 +3,11 @@ import { Subtitle } from "../../_popup/mainStyles";
 
 const Access = styled(Subtitle)`
   font-size: 1.2rem;
+  @media (max-width:400px){
+    margin-bottom:1rem !important
+    ;
+
+  }
 `;
 const TextCode = styled.div`
   font-size: 1.7rem;
@@ -12,6 +17,10 @@ const TextCode = styled.div`
   display: block;
   text-overflow: ellipsis;
   border-bottom: 1px solid #0e0e0e;
+  @media (max-width:600px) {
+    width: 15rem;
+
+  }
 `;
 const DivWithAccess = styled.div`
   display: flex;

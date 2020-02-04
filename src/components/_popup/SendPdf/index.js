@@ -40,7 +40,7 @@ const SendPdfComponent = ({ togglePopup }) => {
   
   return (
     <BorderContainer onClick={togglePopup} id="sendPdf">
-      <Container style={{height:'28rem'}}>
+      <Container style={{height:'28rem'}} id="containerSendPdf">
         <PopupStandard {...arrPopup}/>
       </Container>
     </BorderContainer>

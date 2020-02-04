@@ -16,7 +16,7 @@ const PopupStandard = ({ id, title, subt, accsCode, textC, clickAction, textClic
         <>
         <Close id={id}>&times;</Close>
         <MainTitle>{title}</MainTitle>
-        <Subtitle style={{ marginBottom: "4rem" }}>
+        <Subtitle style={{ marginBottom: "2rem" }}>
           {subt}
         </Subtitle>
         <DivWithAccess >

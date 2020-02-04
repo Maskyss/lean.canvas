@@ -9,7 +9,13 @@ const BorderContainer = styled.div`
   top: 0;
   z-index: 60;
   background: rgba(0, 0, 0, 0.85);
- 
+  @media ${themes.device.mobileM} {
+    #containerSendPdf, #containerDelete{
+      height:23rem !important;
+    }
+    
+  }
+
 `;
 
 const Container = styled.div`
@@ -26,7 +32,25 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media (max-width:600px) {
+  height: 31rem;
+  width: 40rem;
+
+    padding:3rem !important;
+
+    #copy{
+      width:10.5rem;
+      height:5rem;
+    }
+  }
+ 
+  @media ${themes.device.mobileM} {
+    width: 95%;
+    height: 30rem;
+  }
+ 
 `;
+
 const Close = styled.span`
   font-size: 5rem;
   height: auto;
@@ -70,12 +94,16 @@ const Button = styled.a`
   @media ${themes.device.laptopL} {
     font-size: 1.4rem;
   }
+  @media (max-width:600px) {
+
+      width:10.5rem;
+      height:5rem;
+  }
 `;
 
 const MainTitle = styled.div`
   color: #0e0e0e;
   text-transform: uppercase;
-  // position: relative;
   margin-bottom: 2rem;
 
   font-weight: bold;
@@ -101,6 +129,7 @@ const Subtitle = styled.div`
 
   @media ${themes.device.mobileM} {
     font-size: 1.4rem;
+    margin-bottom:2rem !important;
   }
 `;
 export { Container, BorderContainer, Close, Button, Subtitle, MainTitle };

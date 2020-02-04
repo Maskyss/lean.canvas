@@ -3,10 +3,9 @@ import React from "react";
 import { BlockSegments, SegmDiv } from "./styles";
 
 import { connect } from "react-redux";
-import { segments, segments1 } from "./utils";
+import { segments, segments1 } from "../utils";
 
-import SegmentComponent from "./CanvasSegment";
-
+import SegmentComponent from "../CanvasSegment/index";
 
 const mapStateToProps = state => ({
   cardList: state.updateCardReducer.get("cardList")

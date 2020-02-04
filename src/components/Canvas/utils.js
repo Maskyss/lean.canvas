@@ -65,20 +65,20 @@ const segments = [
 ];
 
 const segments1 = [
-    {
-      id: 7,
+  {
+    id: 7,
 
-      title: "Cost Structure",
-      subtitle: "List your fixed and variable costs.",
-      img: img6
-    },
-    {
-      id: 8,
+    title: "Cost Structure",
+    subtitle: "List your fixed and variable costs.",
+    img: img6
+  },
+  {
+    id: 8,
 
-      title: "Revenue Streams",
-      subtitle: "List your sources of revenue.",
-      img: img7
-    }
-  ];
+    title: "Revenue Streams",
+    subtitle: "List your sources of revenue.",
+    img: img7
+  }
+];
 
-  export { segments, segments1}
+export { segments, segments1 };

@@ -1,31 +1,13 @@
 import React from "react";
-import styled from "styled-components";
 
-import { StyledTextArea } from "./styles";
+import { ButtonImg, BorderButton, StyledTextArea } from "./styles";
 
-import underline from "../../static/underline.svg";
-import bold from "../../static/bold.svg";
-import italic from "../../static/italic.svg";
-
-const ButtonImg = styled.img`
-  padding: 0.5rem;
-  background: #323232;
-  border: 1px solid #7c7c7c;
-`;
-const BorderButton = styled.div`
-  background: #3e3e3e;
-  padding: 1rem;
-  display: flex;
-
-  position: absolute;
-  display: flex;
-  z-index: 10;
-
-  top: ${props => props.top};
-  left: ${props => props.left};
-`;
+import underline from "../../../static/underline.svg";
+import bold from "../../../static/bold.svg";
+import italic from "../../../static/italic.svg";
 
 const CanvasForm = ({
+  white,
   cardText = "",
   handleChange,
   showSelection,
@@ -49,7 +31,7 @@ const CanvasForm = ({
   return (
     <>
       <StyledTextArea
-        style={{ fontSize: "12px" }}
+        style={{ fontSize: "12px", color: white }}
         onChange={React.useCallback(handleChange)}
         onBlur={saveCard}
         tagName="div"
