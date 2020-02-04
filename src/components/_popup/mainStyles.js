@@ -10,12 +10,12 @@ const BorderContainer = styled.div`
   z-index: 60;
   background: rgba(0, 0, 0, 0.85);
   @media ${themes.device.mobileM} {
-    #containerSendPdf, #containerDelete{
-      height:23rem !important;
-    }
-    
-  }
 
+    #containerSendPdf,
+    #containerDelete {
+      height: 23rem !important;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -32,23 +32,35 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  @media (max-width:600px) {
-  height: 31rem;
-  width: 40rem;
+  @media (max-width: 600px) {
+    height: 31rem;
+    width: 40rem;
 
-    padding:3rem !important;
+    padding: 3rem !important;
 
-    #copy{
-      width:10.5rem;
-      height:5rem;
+    #copy {
+      width: 10.5rem;
+      height: 5rem;
     }
   }
- 
+
   @media ${themes.device.mobileM} {
     width: 95%;
     height: 30rem;
+    #createNewC{
+      font-size:2.5rem;
+    }
   }
- 
+  @media (max-width:340px){
+    #createNewC{
+      font-size:2.4rem;
+    }
+  }
+  @media (max-width:330px){
+    #createNewC{
+      font-size:2.3rem;
+    }
+  }
 `;
 
 const Close = styled.span`
@@ -89,15 +101,13 @@ const Button = styled.a`
     background: ${themes.colors.colorBlue2};
     color: white;
     border: 1px solid ${themes.colors.colorBlue2};
-
   }
   @media ${themes.device.laptopL} {
     font-size: 1.4rem;
   }
-  @media (max-width:600px) {
-
-      width:10.5rem;
-      height:5rem;
+  @media (max-width: 600px) {
+    width: 10.5rem;
+    height: 5rem;
   }
 `;
 
@@ -129,7 +139,31 @@ const Subtitle = styled.div`
 
   @media ${themes.device.mobileM} {
     font-size: 1.4rem;
-    margin-bottom:2rem !important;
+    margin-bottom: 2rem !important;
   }
 `;
-export { Container, BorderContainer, Close, Button, Subtitle, MainTitle };
+const PopupMessage =styled.div`
+font-size:1.4rem;
+width:19rem;
+padding:1.5rem;text-align: center;
+font-style: normal;
+font-weight: normal;
+position: absolute;
+    right: 5rem;    z-index: 10;
+    
+    background:white;
+    bottom: -1.3rem;
+   box-shadow: 0px 0px 20px -5px rgba(0,0,0,0.5);
+:before { 
+	content: ' '; 
+	position: absolute; 
+	width: 0; 
+	height: 0; 
+  right: 9rem;
+	top: -10px; 
+	border: 5px solid; 
+  border-color: transparent transparent white;
+  
+}
+`
+export { Container, BorderContainer, Close, Button, Subtitle, MainTitle,PopupMessage };

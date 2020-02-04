@@ -66,7 +66,9 @@ const CanvasCardNoDragg = React.memo(({ text, listID, addCard, cardList }) => {
   };
 
   const openForm = () => {
-    setcardText(cardText);
+    if (cardText === "+") {
+      setcardText(" ");
+    }
     setIsEditing(true);
   };
 

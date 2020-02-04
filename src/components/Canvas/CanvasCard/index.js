@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
-import $ from "jquery";
 
 import { actionsCard } from "../../../bus/card/actions";
+
 import { CardDiv, DotsImg, CardContainer, DeleteButton } from "./styles";
+
 import CanvasForm from "../CanvasForm/index";
 
 import trash from "../../../static/trash.svg";
@@ -21,13 +22,13 @@ const mapDispatchToProps = {
 };
 
 const CanvasCard = React.memo(
-  ({ text, listID, id, index, editCard, deleteCard, addCard, cardList }) => {
+  ({ text, listID, id, index, editCard, deleteCard, cardList }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [cardText, setcardText] = useState(text);
     const [select, setSelect] = useState(false);
     const [coords, setCoords] = useState([0, 0]);
 
-    function showSelection() {
+    const _showSelection = () => {
       if (window.getSelection().toString() !== "") {
         setSelect(true);
         const parentEl = window.getSelection().anchorNode.parentElement;
@@ -36,71 +37,67 @@ const CanvasCard = React.memo(
       } else {
         setSelect(false);
       }
-    }
+    };
 
     const valRef = useRef(cardText);
 
-    const handleDeleteCard = e => {
+    const _handleDeleteCard = () => {
       deleteCard([{ id, listID }, ...cardList]);
     };
 
-    const handleChange = e => {
+    const _handleChange = e => {
       setcardText(e.target.value);
       valRef.current = e.target.value;
     };
 
-    const saveCard = e => {
+    const _saveCard = e => {
       e.preventDefault();
       editCard([{ id, listID, cardText: valRef.current }, ...cardList]);
       setIsEditing(false);
       setSelect(false);
     };
 
-    const renderCard = () => {
-      return (
-        <Draggable
-          draggableId={String(id)}
-          index={index}
-          shouldRespectForceTouch={false}
-        >
-          {(provided, snapshot) => (
-            <CardContainer
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
+    return (
+      <Draggable
+        draggableId={String(id)}
+        index={index}
+        shouldRespectForceTouch={false}
+      >
+        {(provided, snapshot) => (
+          <CardContainer
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
+          >
+            <CardDiv
+              style={{ fontSize: "12px" }}
+              onDoubleClick={() => setIsEditing(true)}
             >
-              <CardDiv
-                style={{ fontSize: "12px" }}
-                onDoubleClick={() => setIsEditing(true)}
+              <DotsImg isDragging={snapshot.isDragging} src={dots} />
+
+              <CanvasForm
+                white="white"
+                cardText={cardText}
+                handleChange={_handleChange}
+                showSelection={_showSelection}
+                isEditing={isEditing}
+                saveCard={_saveCard}
+                coords={coords}
+                select={select}
+              />
+              <DeleteButton
+                className={isEditing ? "deleteBtnV" : "deleteBtnN"}
+                onMouseDown={_handleDeleteCard}
               >
-                <DotsImg isDragging={snapshot.isDragging} src={dots} />
-
-                <CanvasForm
-                  white="white"
-                  cardText={cardText}
-                  handleChange={handleChange}
-                  showSelection={showSelection}
-                  isEditing={isEditing}
-                  saveCard={saveCard}
-                  coords={coords}
-                  select={select}
-                />
-                <DeleteButton
-                  className={isEditing ? "deleteBtnV" : "deleteBtnN"}
-                  onMouseDown={handleDeleteCard}
-                >
-                  <img style={{ width: "1rem" }} src={trash} alt="trash" />
-                </DeleteButton>
-              </CardDiv>
-              {provided.placeholder}
-            </CardContainer>
-          )}
-        </Draggable>
-      );
-    };
-
-    return renderCard();
+                <img style={{ width: "1rem" }} src={trash} alt="trash" />
+              </DeleteButton>
+            </CardDiv>
+            {provided.placeholder}
+          </CardContainer>
+        )}
+      </Draggable>
+    );
   }
 );
 

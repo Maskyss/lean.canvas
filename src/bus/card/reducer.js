@@ -1,13 +1,12 @@
 import { Map, fromJS } from "immutable";
 
 import { types } from "./types";
-import uuid from "uuid";
 
 const initialState = Map({
   cardList: [
     {
       id: 0,
-      cards: [{ title: "example", id: uuid.v4() }]
+      cards: []
     },
     {
       id: 1,

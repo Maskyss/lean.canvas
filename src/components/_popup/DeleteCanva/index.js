@@ -18,13 +18,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
 };
-const DeleteCanva = ({ togglePopup }) => {
-
- 
-
-  const _deleteCanva=()=>{
-
-  }
+const DeleteCanva = ({ togglePopup,deleteCanva }) => {
 
   return (
     <BorderContainer onClick={togglePopup} id="delete">
@@ -38,7 +32,7 @@ const DeleteCanva = ({ togglePopup }) => {
           <Button blue  id="delete">
             No
           </Button> 
-          <Button onClick={() => _deleteCanva()} >
+          <Button onClick={deleteCanva} >
            Yes
           </Button> </div>
       </Container>

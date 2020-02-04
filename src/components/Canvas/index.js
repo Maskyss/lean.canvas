@@ -20,6 +20,7 @@ import DeleteCanva from "../_popup/DeleteCanva";
 import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 
 import trash from "../../static/trash.svg";
+import CreateNewCanvaComponent from "../_popup/CreateNew";
 
 const mapStateToProps = state => ({
   cardList: state.updateCardReducer.get("cardList")
@@ -33,9 +34,20 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
+  const [createNewCanva, setcreateNewCanva] = useState(false);
+
 
   useEffect(() => {
-    getList();
+    if(localStorage.getItem("cardList")!==null|| localStorage.getItem("title")!==null){
+      getList();
+    }
+    else{
+      setcreateNewCanva(true)
+    }
+
+    // if(
+    // )
+    // 
 
     // const input = document.getElementById("divIdToPrint");
     // var doc = new jsPDF();
@@ -59,7 +71,7 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
     // window.print()
   }, []);
 
-  const onDragEnd = result => {
+  const _onDragEnd = result => {
     const { destination, source, type } = result;
     if (!destination) {
       return;
@@ -99,7 +111,20 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
     }
     setDeleteVisible(!deleteVisible);
   };
+  // const _toggleVisibilityDelete = e => {
+  //   setDeleteVisible(!deleteVisible);
+  // };
+  const _deleteCanva=()=>{
+    setDeleteVisible(false);
+    setTimeout(() => {
+      setcreateNewCanva(true);
+		}, 500);
+    localStorage.removeItem('cardList');
+    localStorage.removeItem('title');
 
+
+    
+  }
   return (
     <>
       <Container>
@@ -120,7 +145,7 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
           </BorderButton>
         </Header>
         <div id="printable">
-          <DragDropContext onDragEnd={onDragEnd}>
+          <DragDropContext onDragEnd={_onDragEnd}>
             <BlockSegmentsComponent />
           </DragDropContext>
         </div>
@@ -138,9 +163,15 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
       )}
       {deleteVisible && (
         <Portal>
-          <DeleteCanva togglePopup={_toggleVisibilityDelete} />
+          <DeleteCanva togglePopup={_toggleVisibilityDelete}  deleteCanva={_deleteCanva}/>
         </Portal>
       )}
+      {createNewCanva && (
+        <Portal>
+          <CreateNewCanvaComponent createNewCanva={()=>setcreateNewCanva(false)} />
+        </Portal>
+      )}
+      
     </>
   );
 };

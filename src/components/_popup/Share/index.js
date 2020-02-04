@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
 import {
   Container,
   BorderContainer,
-  Button,
+  Button,PopupMessage
 } from "../mainStyles";
 import { ImageLink,DivShareMedia } from "./styles";
 
@@ -14,6 +15,11 @@ import telegram from "../../../static/media/Telegram.svg";
 import facebook from "../../../static/media/Facebook.svg";
 import linkedin from "../../../static/media/Linkedin.svg";
 
+const PopupC = styled(PopupMessage)`
+right: 6rem;
+`
+
+
 const mapStateToProps = state => ({
   // cardList: state.updateCardReducer.get("cardList")
 });
@@ -22,7 +28,9 @@ const mapDispatchToProps = {
   // getList: actionsCard.getList
 };
 const ShareComponent = ({ togglePopup }) => {
-  const [copy, setCopy] = useState(false);
+  const [copyLink, setCopyLink] = useState(false);
+  const [copyCode, setCopyCode] = useState(false);
+
   const [mobile, setmobile] = useState(false);
 
   const [mainLink, setMainLink] = useState("");
@@ -33,10 +41,20 @@ const ShareComponent = ({ togglePopup }) => {
     setmobile(window.screen.width<=530)
   }, []);
 
-  const _copyText = () => {
-    setCopy(true);
+  const _copyLink = () => {
+    setCopyLink(true);
+    setCopyCode(false);
+
+    navigator.clipboard.writeText(mainLink);
+  }
+  const _copyCode = () => {
+    setCopyLink(false);
+
+    setCopyCode(true);
     navigator.clipboard.writeText(code);
-  };
+  }
+
+;
   const imageSrc = [
     {
       image: facebook,
@@ -64,9 +82,9 @@ const ShareComponent = ({ togglePopup }) => {
     subt: " Copy this code to access this page",
     accsCode: "Access code",
     textC: code,
-    clickAction:copy,
-    textClick: ["Copy", "Copied"],
-    funcAction: _copyText,
+    flagCopy:copyCode,
+    textClick: 'Copy',
+    funcAction: _copyCode,
     input:false
   };
   const _mobileShare = e => {
@@ -111,9 +129,11 @@ const ShareComponent = ({ togglePopup }) => {
               );
             })}
           </div>}
-          <Button id='copy' blue onClick={() => _copyText()}>
-            {copy ? "Copied" : "Copy link"}
+          <Button id='copy' blue onClick={() => _copyLink()}>
+           Copy link
           </Button>
+          {copyLink&&<PopupC>Link successfully copied!</PopupC>}
+
         </DivShareMedia>
       </Container>
     </BorderContainer>
