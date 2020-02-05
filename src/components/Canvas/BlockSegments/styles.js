@@ -19,6 +19,9 @@ const BlockSegments = styled.div`
   .long {
     width: 50%;
     height: 28rem;
+    img{
+      margin-right:2%;
+    }
     @media ${themes.device.laptop} {
       height: 28rem;
     }
@@ -27,29 +30,36 @@ const BlockSegments = styled.div`
       width: 100%;
     }
     .droppable {
+
       height: 55%;
       margin: 0 3%;
       overflow: scroll;
       overflow-x: hidden;
+      button{
+        display:none !important;
+      }
     }
   }
 `;
 
 const SegmDiv = styled.div`
+  @media (min-width:1921px){
+    width: 20%;
+  }
   display: flex;
   flex-direction: column;
   width: 30rem;
-  margin: 0 1%;
+  margin: 0 1rem;
+
   @media ${themes.device.tablet} {
     margin: 0;
     width: 100%;
   }
   .inDiv {
-    margin-bottom: 5%;
+    margin-bottom: 1rem;
     width: 100%;
     height: 30rem;
     @media ${themes.device.tablet} {
-      margin-bottom: 1%;
       height: 28rem;
     }
 
@@ -58,6 +68,9 @@ const SegmDiv = styled.div`
       margin: 0 3%;
       overflow: scroll;
       overflow-x: hidden;
+      button{
+        display:none !important;
+      }
     }
   }
 `;

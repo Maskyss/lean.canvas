@@ -1,23 +1,36 @@
 import styled from "styled-components";
 import { themes } from "../../../theme/theme";
-
 const Segment = styled.div`
   background: #292929;
   width: 30rem;
-  margin-bottom: 1%;
+  margin-bottom: 1rem;
   position: relative;
+  height:61rem;
+  @media (min-width:1921px){
+    width: 20%;
+  }
+  @media(max-width:1330px){
+    height: 61rem;
+  }
+
   @media ${themes.device.tablet} {
     width: 100%;
     height: 28rem;
   }
 
   .droppable {
-    height: 85%;
+    height: 83%;
+    @media(max-width:1330px){
+      height: 81%;
+    }
     margin: 0 3%;
     overflow: scroll;
     overflow-x: hidden;
     @media ${themes.device.tablet} {
       height: 70%;
+    }
+    button{
+      display:none !important;
     }
   }
 `;

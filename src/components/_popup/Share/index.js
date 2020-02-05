@@ -85,7 +85,8 @@ const ShareComponent = ({ togglePopup }) => {
     flagCopy:copyCode,
     textClick: 'Copy',
     funcAction: _copyCode,
-    input:false
+    input:false,
+    textPopup:'Code successfully copied!'
   };
   const _mobileShare = e => {
     const href = window.location.origin;

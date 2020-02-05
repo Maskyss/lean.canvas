@@ -26,6 +26,7 @@ const BlockSegmentsComponent = ({ cardList }) => {
                     item={key0}
                     listID={key0.id}
                     cards={cardList[key0.id].cards}
+
                   />
                 );
               })
@@ -52,7 +53,7 @@ const BlockSegmentsComponent = ({ cardList }) => {
               <SegmentComponent
                 key={i}
                 item={key}
-                style={i === 0 ? { marginRight: "1%" } : {}}
+                style={i === 0 ? { marginRight: "1rem" } : {}}
                 className="long"
                 listID={key.id}
                 cards={cardList[key.id].cards}

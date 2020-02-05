@@ -31,9 +31,10 @@ const SendPdfComponent = ({ togglePopup }) => {
     accsCode: "Send by email",
     textC: code,
     clickAction:copy,
-    textClick: ["Send invite", "Sent!"],
+    textClick: "Send invite",
     funcAction: _copyText,
-    input:true
+    input:true,
+    textPopup:'sent'
 
   };
 

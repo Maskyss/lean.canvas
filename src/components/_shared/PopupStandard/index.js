@@ -20,7 +20,8 @@ const PopupStandard = ({
   textC,
   flagCopy,
   textClick,
-  funcAction
+  funcAction,
+  textPopup
 }) => {
   return (
     <>
@@ -36,7 +37,7 @@ const PopupStandard = ({
         <Button onClick={funcAction}>
           {textClick}
         </Button>
-        {flagCopy &&<PopupC>Code successfully copied!</PopupC>}
+        {flagCopy &&<PopupC>{textPopup}</PopupC>}
       </DivWithAccess>
     </>
   );

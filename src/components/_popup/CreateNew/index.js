@@ -3,7 +3,12 @@ import React, { useState, useEffect } from "react";
 // import {  BorderContainer } from "./styles";
 
 import { Container, BorderContainer } from "../mainStyles";
-import { Button, Subtitle, MainTitle,PopupMessage } from "../../_popup/mainStyles";
+import {
+  Button,
+  Subtitle,
+  MainTitle,
+  PopupMessage
+} from "../../_popup/mainStyles";
 import { InputC } from "./styles";
 import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
 
@@ -21,20 +26,20 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
   const [errEmpty, setErrEmpty] = useState(false);
 
   const _createNewCanvas = () => {
-    if(title===''){
-      setErrEmpty(true)
-    }else{
-      setErrEmpty(false)
+    if (title === "") {
+      setErrEmpty(true);
+    } else {
+      setErrEmpty(false);
       localStorage.setItem("title", title);
-      createNewCanva()
+      createNewCanva();
     }
   };
-  const _handleInput =(e)=>{
-    if(errEmpty){
-      setErrEmpty(false)
+  const _handleInput = e => {
+    if (errEmpty) {
+      setErrEmpty(false);
     }
-    settitle(e.target.value)
-  }
+    settitle(e.target.value);
+  };
 
   return (
     <BorderContainer>
@@ -58,7 +63,7 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
           </div>
 
           <Button onClick={_createNewCanvas}>Create</Button>
-          {errEmpty&&<PopupMessage>Input title, please</PopupMessage>}
+          {errEmpty && <PopupMessage>Input title, please</PopupMessage>}
         </DivWithAccess>
       </Container>
     </BorderContainer>

@@ -3,6 +3,7 @@ import { Segment, WithImage, Image, Title } from "./styles";
 import { Droppable } from "react-beautiful-dnd";
 import CanvasCard from "../CanvasCard/index";
 import CanvasCardNoDragg from "../CanvasCard/withoutDragg";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const SegmentComponent = ({ item, style, className, listID, cards }) => {
   return (
@@ -14,25 +15,23 @@ const SegmentComponent = ({ item, style, className, listID, cards }) => {
             <Title>{item.title}</Title>
           </WithImage>
 
-          <div
-            className="droppable"
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {cards.map((card, index) => {
-              return (
-                <CanvasCard
-                  key={card.id}
-                  index={index}
-                  text={card.text}
-                  id={card.id}
-                  listID={listID}
-                />
-              );
-            })}
-            {provided.placeholder}
-            <CanvasCardNoDragg text="+" listID={listID} />
-          </div>
+          <ScrollToBottom className="droppable">
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              {cards.map((card, index) => {
+                return (
+                  <CanvasCard
+                    key={card.id}
+                    index={index}
+                    text={card.text}
+                    id={card.id}
+                    listID={listID}
+                  />
+                );
+              })}
+              {provided.placeholder}
+              <CanvasCardNoDragg text="+" listID={listID} />
+            </div>
+          </ScrollToBottom>
         </Segment>
       )}
     </Droppable>

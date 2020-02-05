@@ -10,16 +10,14 @@ import { connect } from "react-redux";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-import BlockSegmentsComponent  from "./BlockSegments/index";
+import BlockSegmentsComponent from "./BlockSegments/index";
 
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import DeleteCanva from "../_popup/DeleteCanva";
-
-
+import BorderBtn from './borderBtn'
 import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 
-import trash from "../../static/trash.svg";
 import CreateNewCanvaComponent from "../_popup/CreateNew";
 
 const mapStateToProps = state => ({
@@ -35,19 +33,27 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
   const [sendPdf, setSendPdf] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [createNewCanva, setcreateNewCanva] = useState(false);
+  const [scrollTo, setscrollTo] = useState(false);
+  const [scrollTo2, setscrollTo2] = useState(false);
+  const [styles, setstyles] = useState({});
 
 
   useEffect(() => {
-    if(localStorage.getItem("cardList")!==null|| localStorage.getItem("title")!==null){
+    if (
+      localStorage.getItem("cardList") !== null ||
+      localStorage.getItem("title") !== null
+    ) {
       getList();
+    } else {
+      setcreateNewCanva(true);
+      _setBodyStyle(createNewCanva);
     }
-    else{
-      setcreateNewCanva(true)
+    if (window.screen.width <= 768) {
+      window.addEventListener("scroll", _onScroll);
     }
-
     // if(
     // )
-    // 
+    //
 
     // const input = document.getElementById("divIdToPrint");
     // var doc = new jsPDF();
@@ -87,91 +93,165 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
       ...cardList
     ]);
   };
-  const _toggleVisibilityShare = e => {
-    const { id } = e.target;
-    if (share && id !== "share") {
-      return null;
-    }
+  // const _onScroll = () => {
 
-    setShare(!share);
-  };
-  const _toggleVisibilitySendPdf = e => {
-    const { id } = e.target;
-    if (sendPdf && id !== "sendPdf") {
-      return null;
-    }
+      
+  //   if (window.scrollY > 300) {
+  //     setscrollTo(true);
+      
+  //   }
 
-    setSendPdf(!sendPdf);
-  };
-  const _toggleVisibilityDelete = e => {
-    const { id } = e.target;
+  //   if (window.scrollY < 250) {
+     
+  //       setscrollTo(false);
 
-    if (deleteVisible && id !== "delete") {
-      return null;
-    }
-    setDeleteVisible(!deleteVisible);
-  };
-  // const _toggleVisibilityDelete = e => {
-  //   setDeleteVisible(!deleteVisible);
+  //   }
   // };
-  const _deleteCanva=()=>{
+  const _onScroll = () => {
+
+    // if(window.scrollY < 200){
+    //   setscrollTo2(false);
+    //   setscrollTo(false);
+    // }
+  if (window.scrollY > 300) {
+    setscrollTo(true);
+    setTimeout(() => {
+      setscrollTo2(true);
+    }, 1000);
+  }
+
+  if (window.scrollY < 250 && window.scrollY > 5) {
+    setscrollTo(false);
+
+setstyles(stylesAfterScroll)
+    setTimeout(() => {
+      setstyles(stylesScrollMain)
+
+
+    }, 1000);
+  }
+};
+  const _toggleVisibility = (e, flag, idN) => {
+    const { id } = e.target;
+    if (flag && id !== idN) {
+      return null;
+    }
+
+    switch (idN) {
+      case "delete": {
+        setDeleteVisible(!flag);
+        break;
+      }
+      case "sendPdf": {
+        setSendPdf(!flag);
+        break;
+      }
+      case "share": {
+        setShare(!flag);
+        break;
+      }
+      default:
+        break;
+    }
+    _setBodyStyle(flag);
+  };
+
+  const _setBodyStyle = flag => {
+    const { body } = document;
+
+    if (flag) {
+      body.setAttribute("style", "overflow-y:auto");
+    } else {
+      body.setAttribute("style", "overflow-y:hidden");
+    }
+  };
+
+  const _createNewCanva = () => {
+    setcreateNewCanva(false);
+    _setBodyStyle(createNewCanva);
+  };
+
+  const _deleteCanva = () => {
     setDeleteVisible(false);
     setTimeout(() => {
       setcreateNewCanva(true);
-		}, 500);
-    localStorage.removeItem('cardList');
-    localStorage.removeItem('title');
+    }, 500);
+    localStorage.removeItem("cardList");
+    localStorage.removeItem("title");
+  };
 
+  const stylesAfterScroll = {
+    position: "fixed",
+    bottom: "-10rem",
+    top: "auto",
 
-    
-  }
+    zIndex: "100"
+  };
+  const stylesScroll = {
+    position: "fixed",
+    bottom: "0rem",
+    top: "auto",
+
+    zIndex: "100"
+  };
+  const stylesScrollMain = {
+    position: "static",
+
+    bottom: "auto",
+    zIndex: "0"
+  };
+
   return (
     <>
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
-          <BorderButton>
-            <Button black={true} onClick={_toggleVisibilityShare}>
-              Share
-            </Button>
-            <Button onClick={_toggleVisibilitySendPdf}>Send PDF</Button>
-            <Button
-              black={true}
-              onClick={_toggleVisibilityDelete}
-              className="trash"
-            >
-              <img src={trash} />
-            </Button>
-          </BorderButton>
+          <BorderBtn style={{}} _toggleVisibility={_toggleVisibility} share={share} sendPdf={sendPdf} deleteVisible={deleteVisible}/>
+
         </Header>
+
         <div id="printable">
           <DragDropContext onDragEnd={_onDragEnd}>
             <BlockSegmentsComponent />
           </DragDropContext>
         </div>
+        <BorderBtn id='nonDiv' style={
+              scrollTo
+                ? scrollTo2
+                  ? stylesScroll
+                  : stylesAfterScroll
+                : styles
+            } _toggleVisibility={_toggleVisibility} share={share} sendPdf={sendPdf} deleteVisible={deleteVisible}/>
       </Container>
+      
 
       {share && (
         <Portal>
-          <ShareComponent togglePopup={_toggleVisibilityShare} />
+          <ShareComponent
+            togglePopup={e => _toggleVisibility(e, share, "share")}
+          />
         </Portal>
       )}
       {sendPdf && (
         <Portal>
-          <SendPdfComponent togglePopup={_toggleVisibilitySendPdf} />
+          <SendPdfComponent
+            togglePopup={e => _toggleVisibility(e, sendPdf, "sendPdf")}
+          />
         </Portal>
       )}
       {deleteVisible && (
         <Portal>
-          <DeleteCanva togglePopup={_toggleVisibilityDelete}  deleteCanva={_deleteCanva}/>
+          <DeleteCanva
+            togglePopup={e => _toggleVisibility(e, deleteVisible, "delete")}
+            deleteCanva={_deleteCanva}
+          />
         </Portal>
       )}
       {createNewCanva && (
         <Portal>
-          <CreateNewCanvaComponent createNewCanva={()=>setcreateNewCanva(false)} />
+          <CreateNewCanvaComponent createNewCanva={_createNewCanva} />
         </Portal>
       )}
-      
     </>
   );
 };

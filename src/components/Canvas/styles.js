@@ -21,10 +21,13 @@ const Header = styled.div`
 
     flex-direction: column;
     align-items: flex-start;
+    height:20rem;
   }
   @media ${themes.device.tabletS} {
     padding: 5rem 3% 0;
     margin-bottom: 3rem;
+    height:17rem;
+
   }
 `;
 const Button = styled.a`
@@ -108,6 +111,31 @@ const Container = styled.div`
   height: auto;
   width: 100%;
   background: ${themes.colors.mainColor};
+  #nonDiv{
+    padding-left: 10% ;
+    padding-right: 10% ;
+
+
+  @media ${themes.device.laptopL} {
+    padding-left: 15% ;
+    padding-right: 15% ;
+  }
+
+  @media ${themes.device.laptopS} {
+    padding-left: 10% ;
+    padding-right: 10% ;
+  }
+  @media ${themes.device.tablet} {
+    padding-left: 7% ;
+    padding-right: 7% ;
+
+  }
+  @media ${themes.device.tabletS} {
+    padding-left: 3% ;
+    padding-right: 3% ;
+    
+  }
+  }
 `;
 
 const ButtonController = styled.div`
@@ -126,6 +154,16 @@ const Block = styled.div`
 
 const BorderButton = styled.div`
   display: flex;
+  
+  @media ${themes.device.tablet}{
+    width:100%;
+    background: #0e0e0e;
+    position:static;
+    padding:1rem 0;
+    z-index:0;
+    transition:bottom 0.5s;
+  }
+ 
   .trash {
     width: 7rem !important;
     margin-right: 0;
