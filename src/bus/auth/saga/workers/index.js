@@ -1,1 +1,1 @@
-export { login } from './workerLogin';
+export { getData } from "./workerGetData";

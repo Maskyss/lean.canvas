@@ -1,4 +1,0 @@
-export const types = {
-	START_SPINNING: 'START_SPINNING',
-	STOP_SPINNING: 'STOP_SPINNING',
-};

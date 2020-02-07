@@ -8,11 +8,14 @@ import { segments, segments1 } from "../utils";
 import SegmentComponent from "../CanvasSegment/index";
 
 const mapStateToProps = state => ({
-  cardList: state.updateCardReducer.get("cardList")
+  cardList: state.updateCardReducer.get("cardList"),
+  authData: state.updateAuthReducer.get("authData")
+
 });
 const mapDispatchToProps = {};
 
-const BlockSegmentsComponent = ({ cardList }) => {
+const BlockSegmentsComponent = ({ cardList,authData }) => {
+  console.log(authData, 'clockse')
   try {
     return (
       <>

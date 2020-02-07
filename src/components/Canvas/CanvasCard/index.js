@@ -12,7 +12,8 @@ import trash from "../../../static/trash.svg";
 import dots from "../../../static/dots.svg";
 
 const mapStateToProps = state => ({
-  cardList: state.updateCardReducer.get("cardList")
+  cardList: state.updateCardReducer.get("cardList"),
+
 });
 
 const mapDispatchToProps = {

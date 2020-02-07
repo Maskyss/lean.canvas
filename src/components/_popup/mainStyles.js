@@ -15,6 +15,9 @@ const BorderContainer = styled.div`
     #containerDelete {
       height: 23rem !important;
     }
+    #containerCreate{
+      height: 40rem !important;
+    }
   }
 `;
 
@@ -41,6 +44,9 @@ const Container = styled.div`
     #copy {
       width: 10.5rem;
       height: 5rem;
+    }
+    #popupCreate{
+      right: 10.5rem !important;
     }
   }
 

@@ -1,4 +1,4 @@
 export const types = {
-	AUTHENTICATE: 'AUTHENTICATE',
-	LOGIN_ASYNC: 'LOGIN_ASYNC',
+    SET_AUTH:"SET_AUTH",
+    GET_AUTH:"GET_AUTH",
 };

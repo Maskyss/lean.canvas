@@ -1,12 +1,15 @@
-import { call, takeEvery, all } from 'redux-saga/effects';
+import { call, takeEvery, all } from "redux-saga/effects";
 
-import { types } from '../types';
-import { login } from './workers';
+import { types } from "../types";
 
-function* loginWatcher() {
-	yield takeEvery(types.LOGIN_ASYNC, login);
+import { getData } from "./workers";
+
+function* getDataWatcher() {
+  yield takeEvery(types.GET_AUTH, getData);
 }
 
 export function* watchAuth() {
-	yield all([call(loginWatcher)]);
+  yield all([
+    call(getDataWatcher),
+  ]);
 }

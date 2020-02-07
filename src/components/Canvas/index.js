@@ -5,10 +5,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 import { actionsCard } from "../../bus/card/actions";
 
-import html2pdf from "html2pdf.js";
-import { connect } from "react-redux";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import { connect,useStore } from "react-redux";
+
 
 import BlockSegmentsComponent from "./BlockSegments/index";
 
@@ -19,18 +17,23 @@ import BorderBtn from "./borderBtn";
 import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 
 import CreateNewCanvaComponent from "../_popup/CreateNew";
+import { socket } from "../../REST/api";
 
-const mapStateToProps = state => ({
-  cardList: state.updateCardReducer.get("cardList")
-});
-const mapDispatchToProps = {
-  dragHappaned: actionsCard.dragHappaned,
-  getList: actionsCard.getList,
-  setList: actionsCard.setList,
+// const mapStateToProps = state => ({
+//   cardList: state.updateCardReducer.get("cardList"),
+//   authData: state.updateAuthReducer.get("authData")
 
-};
+// });
+// const mapDispatchToProps = {
+//   dragHappaned: actionsCard.dragHappaned,
+//   getList: actionsCard.getList,
+// };
+// dragHappaned, getList, cardList, authData, createCanvas
+const Canvas = ({  }) => {
 
-const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
+  const store = useStore().getState()
+
+
   const [mobile, setMobile] = useState(false);
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
@@ -46,7 +49,7 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
       localStorage.getItem("cardList") !== null ||
       localStorage.getItem("title") !== null
     ) {
-      getList();
+      store.getList();
     } else {
       setcreateNewCanva(true);
       _setBodyStyle(createNewCanva);
@@ -54,30 +57,6 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
     if (window.screen.width <= 768) {
       window.addEventListener("scroll", _onScroll);
     }
-    // if(
-    // )
-    //
-
-    // const input = document.getElementById("divIdToPrint");
-    // var doc = new jsPDF();
-    // html2canvas(input,).then(canvas => {
-    //   const imgData = canvas.toDataURL("image/png");
-    //   const pdf = new jsPDF('landscape' );
-    //   pdf.addImage(imgData,'PNG',20,20);
-    //   pdf.save("download.pdf");
-    // });
-    // var element = document.getElementById('divToPrint');
-    // var opt = {
-    //   margin:       0,
-    //   filename:     'myfile.pdf',
-    //   enableLinks:{mode: ['css', 'legacy']},
-    //   image:        { type: 'jpeg', quality: 0.98 },
-    //   html2canvas:  { scale: 2 },
-    //   jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
-    // };
-    // html2pdf().set(opt).from(element).save();
-    // html2pdf(element, opt);
-    // window.print()
   }, []);
 
   const _onDragEnd = result => {
@@ -85,7 +64,7 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
     if (!destination) {
       return;
     }
-    dragHappaned([
+    store.dragHappaned([
       {
         droppableIdStart: source.droppableId,
         droppableIdEnd: destination.droppableId,
@@ -93,7 +72,7 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
         droppableIndexEnd: destination.index,
         type
       },
-      ...cardList
+      ...store.cardList
     ]);
   };
  
@@ -151,15 +130,20 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
   };
 
   const _createNewCanva = () => {
+    // createCanvas()
     setcreateNewCanva(false);
     _setBodyStyle(createNewCanva);
+    console.log('store -> ', store);
+    socket.emit("createCanvas", { canvasData:store.cardList, password:'password',title:'title'})
+
+   
   };
 
   const _deleteCanva = () => {
     localStorage.removeItem("cardList");
     localStorage.removeItem("title");
     setDeleteVisible(false);
-    getList();
+    store.getList();
     
   };
 
@@ -247,5 +231,5 @@ const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
     </>
   );
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Canvas);
+// connect(mapStateToProps, mapDispatchToProps)
+export default (Canvas);

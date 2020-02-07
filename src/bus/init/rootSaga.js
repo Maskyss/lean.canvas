@@ -1,9 +1,12 @@
 import { all, call } from 'redux-saga/effects';
 
-import { watchAuth } from '../auth/saga/watchers';
 import { watchCardData } from '../card/saga/watchers';
+import { watchAuth } from '../auth/saga/watchers';
+
 
 
 export function* rootSaga() {
-	yield all([call(watchAuth),  call(watchCardData)]);
+	yield all([ call(watchCardData), 
+		call(watchAuth)]);
+		
 }
