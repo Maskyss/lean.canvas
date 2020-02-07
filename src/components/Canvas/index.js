@@ -15,7 +15,7 @@ import BlockSegmentsComponent from "./BlockSegments/index";
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import DeleteCanva from "../_popup/DeleteCanva";
-import BorderBtn from './borderBtn'
+import BorderBtn from "./borderBtn";
 import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
 
 import CreateNewCanvaComponent from "../_popup/CreateNew";
@@ -25,10 +25,13 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   dragHappaned: actionsCard.dragHappaned,
-  getList: actionsCard.getList
+  getList: actionsCard.getList,
+  setList: actionsCard.setList,
+
 };
 
-const Canvas = ({ dragHappaned, getList, cardList }) => {
+const Canvas = ({ dragHappaned, getList, cardList,setList }) => {
+  const [mobile, setMobile] = useState(false);
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -37,8 +40,8 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
   const [scrollTo2, setscrollTo2] = useState(false);
   const [styles, setstyles] = useState({});
 
-
   useEffect(() => {
+    setMobile(window.screen.width <= 768);
     if (
       localStorage.getItem("cardList") !== null ||
       localStorage.getItem("title") !== null
@@ -93,44 +96,25 @@ const Canvas = ({ dragHappaned, getList, cardList }) => {
       ...cardList
     ]);
   };
-  // const _onScroll = () => {
-
-      
-  //   if (window.scrollY > 300) {
-  //     setscrollTo(true);
-      
-  //   }
-
-  //   if (window.scrollY < 250) {
-     
-  //       setscrollTo(false);
-
-  //   }
-  // };
+ 
   const _onScroll = () => {
+  
+    if (window.scrollY > 300) {
+      setscrollTo(true);
+      setTimeout(() => {
+        setscrollTo2(true);
+      }, 1000);
+    }
 
-    // if(window.scrollY < 200){
-    //   setscrollTo2(false);
-    //   setscrollTo(false);
-    // }
-  if (window.scrollY > 300) {
-    setscrollTo(true);
-    setTimeout(() => {
-      setscrollTo2(true);
-    }, 1000);
-  }
+    if (window.scrollY < 250 && window.scrollY > 5) {
+      setscrollTo(false);
 
-  if (window.scrollY < 250 && window.scrollY > 5) {
-    setscrollTo(false);
-
-setstyles(stylesAfterScroll)
-    setTimeout(() => {
-      setstyles(stylesScrollMain)
-
-
-    }, 1000);
-  }
-};
+      setstyles(stylesAfterScroll);
+      setTimeout(() => {
+        setstyles(stylesScrollMain);
+      }, 1000);
+    }
+  };
   const _toggleVisibility = (e, flag, idN) => {
     const { id } = e.target;
     if (flag && id !== idN) {
@@ -172,12 +156,11 @@ setstyles(stylesAfterScroll)
   };
 
   const _deleteCanva = () => {
-    setDeleteVisible(false);
-    setTimeout(() => {
-      setcreateNewCanva(true);
-    }, 500);
     localStorage.removeItem("cardList");
     localStorage.removeItem("title");
+    setDeleteVisible(false);
+    getList();
+    
   };
 
   const stylesAfterScroll = {
@@ -206,8 +189,13 @@ setstyles(stylesAfterScroll)
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
-          <BorderBtn style={{}} _toggleVisibility={_toggleVisibility} share={share} sendPdf={sendPdf} deleteVisible={deleteVisible}/>
-
+          <BorderBtn
+            style={{}}
+            _toggleVisibility={_toggleVisibility}
+            share={share}
+            sendPdf={sendPdf}
+            deleteVisible={deleteVisible}
+          />
         </Header>
 
         <div id="printable">
@@ -215,15 +203,19 @@ setstyles(stylesAfterScroll)
             <BlockSegmentsComponent />
           </DragDropContext>
         </div>
-        <BorderBtn id='nonDiv' style={
-              scrollTo
-                ? scrollTo2
-                  ? stylesScroll
-                  : stylesAfterScroll
-                : styles
-            } _toggleVisibility={_toggleVisibility} share={share} sendPdf={sendPdf} deleteVisible={deleteVisible}/>
+        {mobile && (
+          <BorderBtn
+            id="nonDiv"
+            style={
+              scrollTo ? (scrollTo2 ? stylesScroll : stylesAfterScroll) : styles
+            }
+            _toggleVisibility={_toggleVisibility}
+            share={share}
+            sendPdf={sendPdf}
+            deleteVisible={deleteVisible}
+          />
+        )}
       </Container>
-      
 
       {share && (
         <Portal>

@@ -59,6 +59,6 @@ export const updateCardReducer = (state = initialState, action) => {
       return state.update("cardList", () => fromJS(action.payload));
 
     default:
-      return state;
+      return initialState;
   }
 };

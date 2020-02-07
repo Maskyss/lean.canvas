@@ -20,6 +20,9 @@ const Segment = styled.div`
 
   .droppable {
     height: 83%;
+    .inDroppable{
+      height: 100%;
+      }
     @media(max-width:1330px){
       height: 81%;
     }

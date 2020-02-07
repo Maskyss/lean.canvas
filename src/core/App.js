@@ -14,31 +14,36 @@ const mapStateToProps = (state) => ({
 
 });
 const mapDispatchToProps = {};
-// const socket = io(`http://localhost:6001/`); 
+const socket = io(`http://localhost:6001/`); 
 
 const App =()=>{
 	const [online, setOnline] = useState(false);
-    const [groupId, setGroupId] = useState('No group');
-    const [arr, updateArr] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
 
-    // useEffect(() => {
+    useEffect(() => {
     //     const { pathname } = window.location;
     //     const password = prompt('Pass: ');
 
-    //     socket.on('connect', () => setOnline(true));
-    //     socket.on('disconnect', () => {
-    //         setOnline(false);
-    //         setGroupId('No group');
-    //     });
-    //     socket.on('errorMessage', (data) => console.log('Error!', data));
+        socket.on('connect', () => {
+            console.log(true)
+            setOnline(true)});
+        socket.on('disconnect', () => {
+            setOnline(false);
+        });
+        socket.on('errorMessage', (data) => console.log('Error!', data));
+        socket.on('joinedRoom', (data) => console.log( data));
+
 
     //     socket.on('pongResponse', (data) => console.log(data));
-    //     socket.on('updateCanvas', (data) => updateArr(data));
+        socket.on('canvasUpdated', (data) => console.log(data));
+        socket.on('canvasCreated', (data) => console.log(data));
+        socket.on('newTokens', (data) => console.log(data));
+
+        
 
     //     socket.on('joinedGroup', ({ roomId }) => setGroupId(roomId));
 
     //     socket.emit('join', { roomId: pathname.split('/')[1], password });
-    // }, []);
+    }, []);
 
     // const _ping = () => socket.emit('pingRequest', groupId);
 

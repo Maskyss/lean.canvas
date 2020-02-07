@@ -30,7 +30,9 @@ const BlockSegments = styled.div`
       width: 100%;
     }
     .droppable {
-
+      .inDroppable{
+      height: 100%;
+      }
       height: 55%;
       margin: 0 3%;
       overflow: scroll;
@@ -64,6 +66,9 @@ const SegmDiv = styled.div`
     }
 
     .droppable {
+      .inDroppable{
+        height: 100%;
+        }
       height: 70%;
       margin: 0 3%;
       overflow: scroll;

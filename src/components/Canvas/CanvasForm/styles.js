@@ -24,6 +24,7 @@ const StyledTextArea = styled(ContentEditable)`
   width: 100%;
   background: #3e3e3e;
   color: #969696;
+  word-break: break-word;
   ::selection {
     background: #7d7d7d;
     color: white;

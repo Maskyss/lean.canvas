@@ -16,7 +16,7 @@ const SegmentComponent = ({ item, style, className, listID, cards }) => {
           </WithImage>
 
           <ScrollToBottom className="droppable">
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div {...provided.droppableProps} className="inDroppable" ref={provided.innerRef}>
               {cards.map((card, index) => {
                 return (
                   <CanvasCard
