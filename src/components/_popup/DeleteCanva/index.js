@@ -13,11 +13,6 @@ import {
 } from "../../_popup/mainStyles";
 
 
-
-const mapStateToProps = state => ({
-});
-const mapDispatchToProps = {
-};
 const DeleteCanva = ({ togglePopup,deleteCanva }) => {
 
   return (
@@ -40,4 +35,4 @@ const DeleteCanva = ({ togglePopup,deleteCanva }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteCanva);
+export default DeleteCanva;

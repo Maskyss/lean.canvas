@@ -1,19 +1,17 @@
-import { Map, fromJS } from "immutable";
+import { Map } from "immutable";
 
 import { types } from "./types";
 
 const initialState = Map({
-  authData: [
-   {password:'', title:''}
-  ]
+  authData: 
+   {id:'' }
 });
 
 export const updateAuthReducer = (state = initialState, action) => {
-  console.log(state,action.payload )
   switch (action.type) {
     case types.SET_AUTH:
       return state.set("authData", action.payload);
     default:
-      return initialState;
+      return state;
   }
 };

@@ -3,44 +3,18 @@ import { Map, fromJS } from "immutable";
 import { types } from "./types";
 
 const initialState = Map({
-  cardList: [
-    {
-      id: 0,
-      cards: []
-    },
-    {
-      id: 1,
-      cards: []
-    },
-    {
-      id: 2,
-      cards: []
-    },
-    {
-      id: 3,
-      cards: []
-    },
-    {
-      id: 4,
-      cards: []
-    },
-    {
-      id: 5,
-      cards: []
-    },
-    {
-      id: 6,
-      cards: []
-    },
-    {
-      id: 7,
-      cards: []
-    },
-    {
-      id: 8,
-      cards: []
-    }
-  ]
+  cardList: {
+
+    problem:[],
+    solution:[],
+    keyMetrics:[],
+    uniqueValueProposition:[],
+    unfairAdvantage:[],
+    channels:[],
+    customerSegment:[],
+    costStructure:[],
+    revenueStreams:[],
+  }
 });
 //{ time: '', message: '' }
 
@@ -59,6 +33,6 @@ export const updateCardReducer = (state = initialState, action) => {
       return state.update("cardList", () => fromJS(action.payload));
 
     default:
-      return initialState;
+      return state;
   }
 };

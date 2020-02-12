@@ -1,2 +1,7 @@
 export { getData } from "./workerGetData";
-export { addCard, deleteCard, editCard, dragCard } from "./workerCardActions";
+export { addCard } from "./workerAddCard";
+export { deleteCard } from "./workerDeleteCard";
+export { editCard } from "./workerEditCard";
+export { dragCard } from "./workerDragCard";
+
+

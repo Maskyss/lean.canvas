@@ -7,13 +7,6 @@ import PopupStandard from "../../_shared/PopupStandard";
 
 import { connect } from "react-redux";
 
-const mapStateToProps = state => ({
-  // cardList: state.updateCardReducer.get("cardList")
-});
-const mapDispatchToProps = {
-  // dragHappaned: actionsCard.dragHappaned,
-  // getList: actionsCard.getList
-};
 const SendPdfComponent = ({ togglePopup }) => {
   const [copy, setCopy] = useState(false);
   const [mainLink, setMainLink] = useState("");
@@ -48,4 +41,4 @@ const SendPdfComponent = ({ togglePopup }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendPdfComponent);
+export default SendPdfComponent;

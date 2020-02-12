@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-// import {  BorderContainer } from "./styles";
+import React, { useState } from "react";
 
 import { Container, BorderContainer } from "../mainStyles";
 import {
@@ -9,31 +7,66 @@ import {
   MainTitle,
   PopupMessage
 } from "../../_popup/mainStyles";
-import {actionsAuth} from '../../../bus/auth/actions'
+import { actionsAuth } from "../../../bus/auth/actions";
 import { InputC } from "./styles";
 import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { socket } from "../../../REST/api";
 
-const mapStateToProps = state => ({
-});
-const mapDispatchToProps = {
-  getAuth: actionsAuth.getAuth,
-};
-const CreateNewCanvaComponent = ({ createNewCanva,getAuth }) => {
+const CreateNewCanvaComponent = ({ createNewCanva }) => {
+  const cardList = useSelector(state =>
+    state.updateCardReducer.get("cardList")
+  );
+  const dispatch = useDispatch();
+
+  const defaultPopup = "Title or code is empty";
+
   const [title, settitle] = useState("");
   const [password, setpassword] = useState("");
+
+  const [popupMess, setpopupMess] = useState(defaultPopup);
 
   const [errEmpty, setErrEmpty] = useState(false);
 
   const _createNewCanvas = () => {
     if (title === "" || password === "") {
       setErrEmpty(true);
+    } else if (title.length < 3) {
+      setErrEmpty(true);
+      setpopupMess("Title length min 3 symbols");
+    } else if (password.length < 6) {
+      setErrEmpty(true);
+      setpopupMess("Password length min 6 symbols");
     } else {
       setErrEmpty(false);
-      getAuth({ password, title});
-      createNewCanva()
+      _socketCreateCanvas();
+      
+
+      
+      createNewCanva();
     }
   };
+  
+const _socketCreateCanvas=()=>{
+  socket.emit(
+    "createCanvas",
+    { canvasData: cardList, password, title },
+    data => {
+      console.log(data)
+      dispatch(actionsAuth.setAuth({ id: data.id }));
+      
+      window.history.pushState(
+        "object or string",
+        "Title",
+        window.location.href + data.id
+      );
+      
+      localStorage.setItem("cardList",JSON.stringify (cardList));
+      localStorage.setItem("id", data.id);
+    }
+  );
+}
+
   const _handleInput = e => {
     const { name: targetName, value } = e.target;
 
@@ -90,7 +123,7 @@ const CreateNewCanvaComponent = ({ createNewCanva,getAuth }) => {
 
         {errEmpty && (
           <PopupMessage style={{ right: "20.5rem" }} id="popupCreate">
-            Input title, please
+            {popupMess}
           </PopupMessage>
         )}
         <Button
@@ -104,7 +137,4 @@ const CreateNewCanvaComponent = ({ createNewCanva,getAuth }) => {
   );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CreateNewCanvaComponent);
+export default CreateNewCanvaComponent;

@@ -2,20 +2,18 @@ import React from "react";
 
 import { BlockSegments, SegmDiv } from "./styles";
 
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { segments, segments1 } from "../utils";
 
 import SegmentComponent from "../CanvasSegment/index";
 
-const mapStateToProps = state => ({
-  cardList: state.updateCardReducer.get("cardList"),
-  authData: state.updateAuthReducer.get("authData")
 
-});
-const mapDispatchToProps = {};
 
-const BlockSegmentsComponent = ({ cardList,authData }) => {
-  console.log(authData, 'clockse')
+const BlockSegmentsComponent = () => {
+  const cardList = useSelector(state =>
+    state.updateCardReducer.get("cardList")
+  );
+
   try {
     return (
       <>
@@ -28,8 +26,7 @@ const BlockSegmentsComponent = ({ cardList,authData }) => {
                     key={ind}
                     item={key0}
                     listID={key0.id}
-                    cards={cardList[key0.id].cards}
-
+                    cards={cardList[key0.id]}
                   />
                 );
               })
@@ -42,7 +39,7 @@ const BlockSegmentsComponent = ({ cardList,authData }) => {
                       item={key0}
                       className="inDiv"
                       listID={key0.id}
-                      cards={cardList[key0.id].cards}
+                      cards={cardList[key0.id]}
                     />
                   );
                 })}
@@ -59,7 +56,7 @@ const BlockSegmentsComponent = ({ cardList,authData }) => {
                 style={i === 0 ? { marginRight: "1rem" } : {}}
                 className="long"
                 listID={key.id}
-                cards={cardList[key.id].cards}
+                cards={cardList[key.id]}
               />
             );
           })}
@@ -71,7 +68,4 @@ const BlockSegmentsComponent = ({ cardList,authData }) => {
   }
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlockSegmentsComponent);
+export default BlockSegmentsComponent;

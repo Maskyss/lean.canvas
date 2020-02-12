@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
 
 import {
@@ -19,14 +18,6 @@ const PopupC = styled(PopupMessage)`
 right: 6rem;
 `
 
-
-const mapStateToProps = state => ({
-  // cardList: state.updateCardReducer.get("cardList")
-});
-const mapDispatchToProps = {
-  // dragHappaned: actionsCard.dragHappaned,
-  // getList: actionsCard.getList
-};
 const ShareComponent = ({ togglePopup }) => {
   const [copyLink, setCopyLink] = useState(false);
   const [copyCode, setCopyCode] = useState(false);
@@ -141,4 +132,4 @@ const ShareComponent = ({ togglePopup }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShareComponent);
+export default ShareComponent;

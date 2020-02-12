@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { actionsCard } from "../../../bus/card/actions";
 
@@ -9,16 +9,11 @@ import { CardDiv, DotsImg } from "./styles";
 
 import dots from "../../../static/dots.svg";
 
-const mapStateToProps = state => ({
-  cardList: state.updateCardReducer.get("cardList")
-});
 
-const mapDispatchToProps = {
-  editCard: actionsCard.editCard,
-  addCard: actionsCard.addCard
-};
+const CanvasCardNoDragg = React.memo(({ text, listID,  }) => {
+  const cardList = useSelector(state => state.updateCardReducer.get("cardList"));
+  const dispatch = useDispatch();
 
-const CanvasCardNoDragg = React.memo(({ text, listID, addCard, cardList }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setcardText] = useState(text);
   const [select, setSelect] = useState(false);
@@ -54,27 +49,34 @@ const CanvasCardNoDragg = React.memo(({ text, listID, addCard, cardList }) => {
   };
 
   const handleAddCard = () => {
-    if (cardText) {
+    if(valRef.current===''){
+      setcardText("+");
+
+      setIsEditing(false);
+      setSelect(false);
+    }
+    else {
       setcardText(valRef.current);
       setIsEditing(false);
       setSelect(false);
-      addCard([{ text: valRef.current, listID }, ...cardList]);
+      dispatch(actionsCard.addCard([{ text: valRef.current, listID }, cardList]));
       setcardText("+");
     }
+    
 
     return;
   };
 
   const openForm = () => {
     if (cardText === "+") {
-      setcardText(" ");
+      setcardText("");
     }
     setIsEditing(true);
   };
 
   const renderCard = () => {
     return (
-      <CardDiv style={{ fontSize: "12px" }} onDoubleClick={() => openForm()}>
+      <CardDiv style={{ fontSize: "12px" }} onClick={() => openForm()}>
         <DotsImg src={dots} />
 
         <CanvasForm
@@ -93,4 +95,4 @@ const CanvasCardNoDragg = React.memo(({ text, listID, addCard, cardList }) => {
   return renderCard();
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CanvasCardNoDragg);
+export default CanvasCardNoDragg;

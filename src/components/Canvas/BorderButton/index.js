@@ -1,6 +1,6 @@
 import React from "react"; 
-import { Button, BorderButton } from "./styles";
-import trash from "../../static/trash.svg";
+import { Button, BorderButton } from "../styles";
+import trash from "../../../static/trash.svg";
 
 
 const BorderBtn = ({ _toggleVisibility, share, deleteVisible, sendPdf, style ,id}) => {

@@ -8,6 +8,7 @@ export const socket = io(SOCKET_URL);
 export const socketFunctions = {
   canvas: {
     createCanvas(canvasData, password, title) {
+      
       socket.emit("createCanvas", { canvasData, password, title });
     },
     updateCanvas(token, canvasId, updatedCanvas) {

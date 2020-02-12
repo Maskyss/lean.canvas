@@ -115,6 +115,29 @@ const Button = styled.a`
     width: 10.5rem;
     height: 5rem;
   }
+
+  .spinner {
+    margin: 1rem auto;
+  
+    width: 2rem;
+    height: 2rem;
+  
+    border: 2px solid #1B85E6;
+    border-top: 2px solid white;
+    border-radius: 100%;
+  
+    animation: spin 1s infinite linear;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(720deg);
+    }
+  }
 `;
 
 const MainTitle = styled.div`
@@ -147,6 +170,38 @@ const Subtitle = styled.div`
     font-size: 1.4rem;
     margin-bottom: 2rem !important;
   }
+
+.hr-text {
+  margin:1rem 0 2.5rem;
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: #969696;
+  text-align: center;
+  height: 1.5em;
+  
+  &:before {
+    content: '';
+  
+    background:  #969696;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+  }
+  &:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: #969696;
+
+    padding: 0 .5em;
+    line-height: 1.5em;
+    background-color: white;
+  }
+}
 `;
 const PopupMessage =styled.div`
 font-size:1.4rem;

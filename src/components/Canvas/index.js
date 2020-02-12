@@ -2,37 +2,32 @@ import React, { useEffect, useState } from "react";
 
 import { Portal } from "react-portal";
 import { DragDropContext } from "react-beautiful-dnd";
+// import lottie from "lottie-web";
 
-import { actionsCard } from "../../bus/card/actions";
-
-import { connect,useStore } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 
 import BlockSegmentsComponent from "./BlockSegments/index";
+import { actionsCard } from "../../bus/card/actions";
 
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import DeleteCanva from "../_popup/DeleteCanva";
-import BorderBtn from "./borderBtn";
-import { Container, MainTitle, Header, Button, BorderButton } from "./styles";
+import BorderBtn from "./BorderButton";
+import { Container, MainTitle, Header } from "./styles";
 
 import CreateNewCanvaComponent from "../_popup/CreateNew";
 import { socket } from "../../REST/api";
+import Verification from "../_popup/Verification";
 
-// const mapStateToProps = state => ({
-//   cardList: state.updateCardReducer.get("cardList"),
-//   authData: state.updateAuthReducer.get("authData")
+//
+const Canvas = ({}) => {
+  const cardList = useSelector(state =>
+    state.updateCardReducer.get("cardList")
+  );
+  const dispatch = useDispatch();
 
-// });
-// const mapDispatchToProps = {
-//   dragHappaned: actionsCard.dragHappaned,
-//   getList: actionsCard.getList,
-// };
-// dragHappaned, getList, cardList, authData, createCanvas
-const Canvas = ({  }) => {
-
-  const store = useStore().getState()
-
+  // const [preloader, setPreloader] = useState(true);
+  const [verification, setverification] = useState(false);
 
   const [mobile, setMobile] = useState(false);
   const [share, setShare] = useState(false);
@@ -44,17 +39,27 @@ const Canvas = ({  }) => {
   const [styles, setstyles] = useState({});
 
   useEffect(() => {
-    setMobile(window.screen.width <= 768);
-    if (
-      localStorage.getItem("cardList") !== null ||
-      localStorage.getItem("title") !== null
-    ) {
-      store.getList();
+    const mobileS = window.screen.width <= 768;
+    setMobile(mobileS);
+
+    if (window.location.pathname === "/") {
+      // if (
+      //   localStorage.getItem("cardList") !== null ||
+      //   localStorage.getItem("id") !== null
+      // ) {
+      //   dispatch(actionsCard.getList());
+      // } else {
+        _createNewCanva();
+        _setBodyStyle(createNewCanva)
+
+      // }
     } else {
-      setcreateNewCanva(true);
-      _setBodyStyle(createNewCanva);
+     
+      setverification(true);
+      _setBodyStyle(verification)
     }
-    if (window.screen.width <= 768) {
+
+    if (mobileS) {
       window.addEventListener("scroll", _onScroll);
     }
   }, []);
@@ -64,20 +69,21 @@ const Canvas = ({  }) => {
     if (!destination) {
       return;
     }
-    store.dragHappaned([
-      {
-        droppableIdStart: source.droppableId,
-        droppableIdEnd: destination.droppableId,
-        droppableIndexStart: source.index,
-        droppableIndexEnd: destination.index,
-        type
-      },
-      ...store.cardList
-    ]);
+    dispatch(
+      actionsCard.dragHappaned([
+        {
+          droppableIdStart: source.droppableId,
+          droppableIdEnd: destination.droppableId,
+          droppableIndexStart: source.index,
+          droppableIndexEnd: destination.index,
+          type
+        },
+        cardList
+      ])
+    );
   };
- 
+
   const _onScroll = () => {
-  
     if (window.scrollY > 300) {
       setscrollTo(true);
       setTimeout(() => {
@@ -130,21 +136,29 @@ const Canvas = ({  }) => {
   };
 
   const _createNewCanva = () => {
-    // createCanvas()
-    setcreateNewCanva(false);
-    _setBodyStyle(createNewCanva);
-    console.log('store -> ', store);
-    socket.emit("createCanvas", { canvasData:store.cardList, password:'password',title:'title'})
-
-   
+    setcreateNewCanva(!createNewCanva);
+    if (verification) {
+      setverification(false);
+      // window.history.pushState(
+      //   "object or string",
+      //   "Title",
+      //   window.location.href
+      // );
+    }
+    _deleteCanva();
   };
 
   const _deleteCanva = () => {
     localStorage.removeItem("cardList");
-    localStorage.removeItem("title");
+    localStorage.removeItem("id");
     setDeleteVisible(false);
-    store.getList();
-    
+    _setBodyStyle(true);
+    dispatch(actionsCard.getList());
+  };
+  const _verification = data => {
+    if (data.statusCode === 400) {
+      setverification();
+    }
   };
 
   const stylesAfterScroll = {
@@ -170,6 +184,11 @@ const Canvas = ({  }) => {
 
   return (
     <>
+      {/* {preloader && (
+        <Portal>
+          <PreloaderComponent />
+        </Portal>
+      )} */}
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
@@ -228,8 +247,16 @@ const Canvas = ({  }) => {
           <CreateNewCanvaComponent createNewCanva={_createNewCanva} />
         </Portal>
       )}
+      {verification && (
+        <Portal>
+          <Verification
+            verification={_verification}
+            createNewCanva={_createNewCanva}
+          />
+        </Portal>
+      )}
     </>
   );
 };
-// connect(mapStateToProps, mapDispatchToProps)
-export default (Canvas);
+//
+export default Canvas;
