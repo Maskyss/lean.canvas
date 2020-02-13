@@ -12,6 +12,8 @@ import {
   PopupMessage,
   InputC
 } from "../mainStyles";
+import { socket } from "../../../REST/api";
+import {  useSelector } from "react-redux";
 
 import styled from "styled-components";
 
@@ -21,13 +23,30 @@ const PopupC = styled(PopupMessage)`
 `;
 
 const SendPdfComponent = ({ togglePopup }) => {
+  const { accessToken: token } = useSelector(state =>
+    state.updateAuthReducer.get("authData")
+  );
+
   const [copy, setCopy] = useState(false);
   const [email, setemail] = useState("");
-  const [code, setCode] = useState("k21jisru14141");
 
   const _copyText = () => {
-    setCopy(true);
-    navigator.clipboard.writeText(code);
+    socket.emit(
+      "sendPdf",
+      {
+        canvasId: localStorage.getItem("id"),
+       email,
+       token
+      },
+      (data) => {
+        console.log(data)
+        if (data.statusCode !== undefined) {
+
+        } 
+      }
+    );
+    // setCopy(true);
+    // navigator.clipboard.writeText(code);
   };
 
   const _handleInput = e => {
