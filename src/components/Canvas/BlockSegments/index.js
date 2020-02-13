@@ -7,16 +7,18 @@ import { segments, segments1 } from "../../../utils";
 
 import SegmentComponent from "../CanvasSegment/index";
 
+import { DragDropContext } from "react-beautiful-dnd";
 
 
-const BlockSegmentsComponent = () => {
+const BlockSegmentsComponent = ({onDragEnd}) => {
   const cardList = useSelector(state =>
     state.updateCardReducer.get("cardList")
   );
 
   try {
     return (
-      <>
+          <DragDropContext onDragEnd={onDragEnd}>
+<>
         <BlockSegments>
           {segments.map((key, i) => {
             return key.length === 1 ? (
@@ -46,6 +48,7 @@ const BlockSegmentsComponent = () => {
               </SegmDiv>
             );
           })}
+          
         </BlockSegments>
         <BlockSegments>
           {segments1.map((key, i) => {
@@ -61,7 +64,8 @@ const BlockSegmentsComponent = () => {
             );
           })}
         </BlockSegments>
-      </>
+        </>
+        </DragDropContext>
     );
   } catch (error) {
     return <div></div>;

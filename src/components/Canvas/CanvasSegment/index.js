@@ -2,11 +2,13 @@ import React from "react";
 import { Segment, WithImage, Image, Title } from "./styles";
 import { Droppable } from "react-beautiful-dnd";
 import CanvasCard from "../CanvasCard/index";
+import ErrorBoundary from "../ErrorBoundary/index";
+
 import CanvasCardNoDragg from "../CanvasCard/withoutDragg";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-const SegmentComponent = ({ item, style, className, listID, cards }) => {
-  try {
+const SegmentComponent = ({ item, style, className, listID, cards=[] }) => {
+ 
     return (
       <Droppable droppableId={String(listID)} type="card">
         {provided => (
@@ -17,9 +19,7 @@ const SegmentComponent = ({ item, style, className, listID, cards }) => {
             </WithImage>
 
             <ScrollToBottom className="droppable">
-              <div
-               
-                className="inDroppable"
+              <div     className="inDroppable"
                 ref={provided.innerRef}
                  {...provided.droppableProps}
               >
@@ -42,9 +42,7 @@ const SegmentComponent = ({ item, style, className, listID, cards }) => {
         )}
       </Droppable>
     );
-  } catch (error) {
-    return <div></div>;
-  }
+    
 };
 
 export default SegmentComponent;

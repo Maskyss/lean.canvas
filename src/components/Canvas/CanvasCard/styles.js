@@ -5,15 +5,20 @@ const CardContainer = styled.div`
   position: relative;
   max-width: 100%;
   word-break: break-word;
+  transition: max-width 0.5s ;
 
   ${props =>
     props.isDragging
       ? `border:1px solid #1B85E5;
     box-shadow: 5px 5px 15px -5px rgba(27,133,229,0.3);  
+    max-width: 20rem;
    
     `
       : `border:1px solid #3e3e3e;
     box-shadow: none;
+    max-width: 100%;
+
+   
     `};
 `;
 
@@ -30,7 +35,7 @@ const CardDiv = styled.div`
   padding: 1rem;
   padding-right: 2rem;
   display: flex;
-
+ 
   .deleteBtnN {
     display: none;
 

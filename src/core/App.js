@@ -6,6 +6,7 @@ import { actionsCard } from "../bus/card/actions";
 
 import { socket } from "../REST/api";
 import Canvas from "../components/Canvas";
+import Header from "../components/Header";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,12 @@ const App = () => {
     });
   }, []);
 
-  return <Canvas />;
+  return (
+    <>
+      <Header />
+      <Canvas />
+    </>
+  );
 };
 
 export default App;

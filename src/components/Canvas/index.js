@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { Portal } from "react-portal";
-import { DragDropContext } from "react-beautiful-dnd";
 // import lottie from "lottie-web";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -262,11 +261,7 @@ const Canvas = () => {
           />
         </Header>
 
-        <div id="printable">
-          <DragDropContext onDragEnd={_onDragEnd}>
-            <BlockSegmentsComponent />
-          </DragDropContext>
-        </div>
+            <BlockSegmentsComponent onDragEnd={_onDragEnd}/>
         {mobile && (
           <BorderBtn
             id="nonDiv"

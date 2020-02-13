@@ -102,6 +102,7 @@ const CanvasCard = ({ text, listID, id, index }) => {
           <CardDiv
             style={{ fontSize: "12px" }}
             onClick={() => setIsEditing(true)}
+            isDragging={snapshot.isDragging}
           >
             <DotsImg isDragging={snapshot.isDragging} src={dots} />
 

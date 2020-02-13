@@ -17,7 +17,7 @@ const BlockSegments = styled.div`
   }
 
   .long {
-    width: 50%;
+    width: 75%;
     height: 28rem;
     img{
       margin-right:2%;

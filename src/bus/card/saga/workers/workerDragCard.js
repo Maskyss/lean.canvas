@@ -13,7 +13,8 @@ export function* dragCard({ payload }) {
         ...state
       ] = payload;
   
-      
+    
+
       if (droppableIdStart === droppableIdEnd) {
         const list = state[0][droppableIdStart];
         const card = list.splice(droppableIndexStart, 1);
@@ -29,6 +30,6 @@ export function* dragCard({ payload }) {
       yield put(actionsCard.setList(state[0]));
 
     } catch (err) {
-      console.log(err);
+      console.log(err, 'erererererere');
     }
   }
