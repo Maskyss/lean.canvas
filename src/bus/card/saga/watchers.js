@@ -2,13 +2,7 @@ import { call, takeEvery, all } from "redux-saga/effects";
 
 import { types } from "../types";
 
-import { getData, dragCard } from "./workers";
-import { addCard, deleteCard, editCard } from "./workers";
-
-function* getDataWatcher() {
-  yield takeEvery(types.GET_LIST, getData);
-}
-
+import { addCard,dragCard, deleteCard, editCard } from "./workers";
 
 
 function* addCardWatcher() {
@@ -29,7 +23,6 @@ function* dragCardWatcher() {
 
 export function* watchCardData() {
   yield all([
-    call(getDataWatcher),
     call(addCardWatcher),
     call(deleteCardWatcher),
     call(editCardWatcher),

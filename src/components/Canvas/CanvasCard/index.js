@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -12,11 +12,11 @@ import CanvasForm from "../CanvasForm/index";
 import trash from "../../../static/trash.svg";
 import dots from "../../../static/dots.svg";
 
-const CanvasCard = React.memo(({ text, listID, id, index }) => {
+const CanvasCard = ({ text, listID, id, index }) => {
   const cardList = useSelector(state =>
     state.updateCardReducer.get("cardList")
   );
-  const canvasId = useSelector(state =>
+  const { id: canvasId, accessToken: token } = useSelector(state =>
     state.updateAuthReducer.get("authData")
   );
 
@@ -27,6 +27,9 @@ const CanvasCard = React.memo(({ text, listID, id, index }) => {
   const [select, setSelect] = useState(false);
   const [coords, setCoords] = useState([0, 0]);
 
+  useEffect(() => {
+    setcardText(text);
+  }, [text]);
   const _showSelection = () => {
     if (window.getSelection().toString() !== "") {
       setSelect(true);
@@ -43,9 +46,17 @@ const CanvasCard = React.memo(({ text, listID, id, index }) => {
   const _handleDeleteCard = () => {
     dispatch(actionsCard.deleteCard([{ id, listID }, cardList]));
 
-    socket.emit("updateCanvas", { canvasId, canvasData: cardList }, data => {
-      console.log(data, "deleteData");
-    });
+    socket.emit(
+      "updateCanvas",
+      { canvasId, canvasData: cardList, token },
+      data => {
+        console.log(data, "deleteCard");
+
+        if (data.statusCode !== undefined) {
+          window.alert("something wrong");
+        }
+      }
+    );
   };
 
   const _handleChange = e => {
@@ -59,9 +70,17 @@ const CanvasCard = React.memo(({ text, listID, id, index }) => {
       actionsCard.editCard([{ id, listID, cardText: valRef.current }, cardList])
     );
 
-    socket.emit("updateCanvas", { canvasId, canvasData: cardList }, data => {
-      console.log(data, "editCard");
-    });
+    socket.emit(
+      "updateCanvas",
+      { canvasId, canvasData: cardList, token },
+      data => {
+        console.log(data, "editCard");
+
+        if (data.statusCode !== undefined) {
+          window.alert("something wrong");
+        }
+      }
+    );
 
     setIsEditing(false);
     setSelect(false);
@@ -108,6 +127,6 @@ const CanvasCard = React.memo(({ text, listID, id, index }) => {
       )}
     </Draggable>
   );
-});
+};
 
 export default CanvasCard;

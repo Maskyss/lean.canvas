@@ -22,6 +22,7 @@ export const updateCardReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_LIST:
       return state.set("cardList", action.payload);
+  
     case types.ADD_CARD:
       return state.update("cardList", () => fromJS(action.payload));
 

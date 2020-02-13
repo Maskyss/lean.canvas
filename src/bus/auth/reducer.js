@@ -4,7 +4,9 @@ import { types } from "./types";
 
 const initialState = Map({
   authData: 
-   {id:'' }
+   { id:'',
+   accessToken:'',
+   refreshToken:'' }
 });
 
 export const updateAuthReducer = (state = initialState, action) => {

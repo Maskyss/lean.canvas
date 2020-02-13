@@ -9,7 +9,6 @@ export function* deleteCard({ payload }) {
     state[0][listID] = state[0][listID].filter(card => card.id !== id);
 
     yield put(actionsCard.setList(state[0]));
-    localStorage.setItem("cardList",JSON.stringify(state[0]));
 
   } catch (err) {
     console.log(err);

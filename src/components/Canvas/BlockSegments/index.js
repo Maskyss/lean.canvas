@@ -3,7 +3,7 @@ import React from "react";
 import { BlockSegments, SegmDiv } from "./styles";
 
 import { useSelector, useDispatch } from "react-redux";
-import { segments, segments1 } from "../utils";
+import { segments, segments1 } from "../../../utils";
 
 import SegmentComponent from "../CanvasSegment/index";
 

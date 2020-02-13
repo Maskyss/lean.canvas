@@ -13,19 +13,17 @@ import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../../../REST/api";
 
+const defaultPopup = "Title or code is empty";
+
 const CreateNewCanvaComponent = ({ createNewCanva }) => {
   const cardList = useSelector(state =>
     state.updateCardReducer.get("cardList")
   );
   const dispatch = useDispatch();
 
-  const defaultPopup = "Title or code is empty";
-
   const [title, settitle] = useState("");
   const [password, setpassword] = useState("");
-
   const [popupMess, setpopupMess] = useState(defaultPopup);
-
   const [errEmpty, setErrEmpty] = useState(false);
 
   const _createNewCanvas = () => {
@@ -40,32 +38,46 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
     } else {
       setErrEmpty(false);
       _socketCreateCanvas();
-      
 
-      
       createNewCanva();
     }
   };
-  
-const _socketCreateCanvas=()=>{
-  socket.emit(
-    "createCanvas",
-    { canvasData: cardList, password, title },
-    data => {
-      console.log(data)
-      dispatch(actionsAuth.setAuth({ id: data.id }));
-      
-      window.history.pushState(
-        "object or string",
-        "Title",
-        window.location.href + data.id
-      );
-      
-      localStorage.setItem("cardList",JSON.stringify (cardList));
-      localStorage.setItem("id", data.id);
-    }
-  );
-}
+
+  const _socketCreateCanvas = () => {
+    socket.emit(
+      "createCanvas",
+      { canvasData: cardList, password, title },
+      data => {
+        console.log("createCanvas", data);
+        dispatch(
+          actionsAuth.setAuth({
+            id: data.id,
+            accessToken: data.tokens.accessToken,
+            refreshToken: data.tokens.refreshToken
+          })
+        );
+
+        setTimeout(() => {
+          console.log(data.tokens.refreshToken)
+          socket.emit("refreshTokens", {
+            refreshToken: data.tokens.refreshToken
+          },
+          (data)=>{
+            console.log(data,'createCanvas:token')
+          });
+        }, 12000000);
+
+        window.history.pushState(
+          "object or string",
+          "Title",
+          window.location.href + data.id
+        );
+
+        localStorage.setItem("id", data.id);
+        localStorage.setItem("password", password);
+      }
+    );
+  };
 
   const _handleInput = e => {
     const { name: targetName, value } = e.target;

@@ -6,57 +6,106 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import BlockSegmentsComponent from "./BlockSegments/index";
 import { actionsCard } from "../../bus/card/actions";
+import { actionsAuth } from "../../bus/auth/actions";
+
+import { socket } from "../../REST/api";
+
+import BlockSegmentsComponent from "./BlockSegments/index";
 
 import ShareComponent from "../_popup/Share";
 import SendPdfComponent from "../_popup/SendPdf";
 import DeleteCanva from "../_popup/DeleteCanva";
 import BorderBtn from "./BorderButton";
-import { Container, MainTitle, Header } from "./styles";
-
 import CreateNewCanvaComponent from "../_popup/CreateNew";
-import { socket } from "../../REST/api";
 import Verification from "../_popup/Verification";
 
-//
-const Canvas = ({}) => {
+import { Container, MainTitle, Header } from "./styles";
+import { stylesAfterScroll, stylesScrollMain, stylesScroll } from "../../utils";
+const initState={
+
+  problem:[],
+  solution:[],
+  keyMetrics:[],
+  uniqueValueProposition:[],
+  unfairAdvantage:[],
+  channels:[],
+  customerSegment:[],
+  costStructure:[],
+  revenueStreams:[],
+}
+const Canvas = () => {
   const cardList = useSelector(state =>
     state.updateCardReducer.get("cardList")
   );
+
+  const { id: canvasId, accessToken: token } = useSelector(state =>
+    state.updateAuthReducer.get("authData")
+  );
+
   const dispatch = useDispatch();
 
   // const [preloader, setPreloader] = useState(true);
   const [verification, setverification] = useState(false);
-
-  const [mobile, setMobile] = useState(false);
   const [share, setShare] = useState(false);
   const [sendPdf, setSendPdf] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [createNewCanva, setcreateNewCanva] = useState(false);
+
+  const [mobile, setMobile] = useState(false);
+
   const [scrollTo, setscrollTo] = useState(false);
   const [scrollTo2, setscrollTo2] = useState(false);
   const [styles, setstyles] = useState({});
 
   useEffect(() => {
     const mobileS = window.screen.width <= 768;
+
     setMobile(mobileS);
 
     if (window.location.pathname === "/") {
-      // if (
-      //   localStorage.getItem("cardList") !== null ||
-      //   localStorage.getItem("id") !== null
-      // ) {
-      //   dispatch(actionsCard.getList());
-      // } else {
-        _createNewCanva();
-        _setBodyStyle(createNewCanva)
-
-      // }
+      _createNewCanva();
+      
     } else {
-     
-      setverification(true);
-      _setBodyStyle(verification)
+      if (
+        localStorage.getItem("id") !== window.location.pathname.substring(1)
+      ) {
+        setverification(true);
+        _setBodyStyle(verification);
+      } else {
+
+        socket.emit(
+          "joinCanvasRoom",
+          {
+            canvasId: localStorage.getItem("id"),
+            password: localStorage.getItem("password")
+          },
+          data => {
+            if (data.statusCode !== undefined) {
+              setverification(true);
+              _setBodyStyle(verification);
+
+            } else {
+              dispatch(actionsCard.setList(data.canvasData));
+              dispatch(
+                actionsAuth.setAuth({
+                  id: data.id,
+                  accessToken: data.tokens.accessToken,
+                  refreshToken: data.tokens.refreshToken
+                })
+              );
+              setTimeout(() => {
+                socket.emit("refreshTokens", {
+                  refreshToken: data.tokens.refreshToken
+                },
+                (data)=>{
+                  console.log(data,'joinCanvasRoom:token')
+                });
+              }, 12000000);
+            }
+          }
+        );
+      }
     }
 
     if (mobileS) {
@@ -67,7 +116,7 @@ const Canvas = ({}) => {
   const _onDragEnd = result => {
     const { destination, source, type } = result;
     if (!destination) {
-      return;
+      return null;
     }
     dispatch(
       actionsCard.dragHappaned([
@@ -80,6 +129,17 @@ const Canvas = ({}) => {
         },
         cardList
       ])
+    );
+
+    socket.emit(
+      "updateCanvas",
+      { canvasId, canvasData: cardList, token },
+      data => {
+        console.log(data, "dragHappaned");
+        if (data.statusCode !== undefined) {
+          window.alert("something wrong");
+        }
+      }
     );
   };
 
@@ -100,6 +160,7 @@ const Canvas = ({}) => {
       }, 1000);
     }
   };
+
   const _toggleVisibility = (e, flag, idN) => {
     const { id } = e.target;
     if (flag && id !== idN) {
@@ -137,49 +198,49 @@ const Canvas = ({}) => {
 
   const _createNewCanva = () => {
     setcreateNewCanva(!createNewCanva);
+    dispatch(actionsCard.setList(initState));
+
     if (verification) {
       setverification(false);
-      // window.history.pushState(
-      //   "object or string",
-      //   "Title",
-      //   window.location.href
-      // );
     }
-    _deleteCanva();
+
+    window.history.pushState(
+      "object or string",
+      "Title",
+      window.location.origin
+    );
+    _setBodyStyle(createNewCanva);
   };
 
   const _deleteCanva = () => {
-    localStorage.removeItem("cardList");
     localStorage.removeItem("id");
+    localStorage.removeItem("password");
+
     setDeleteVisible(false);
     _setBodyStyle(true);
-    dispatch(actionsCard.getList());
+
+    _createNewCanva();
   };
   const _verification = data => {
-    if (data.statusCode === 400) {
-      setverification();
-    }
-  };
-
-  const stylesAfterScroll = {
-    position: "fixed",
-    bottom: "-10rem",
-    top: "auto",
-
-    zIndex: "100"
-  };
-  const stylesScroll = {
-    position: "fixed",
-    bottom: "0rem",
-    top: "auto",
-
-    zIndex: "100"
-  };
-  const stylesScrollMain = {
-    position: "static",
-
-    bottom: "auto",
-    zIndex: "0"
+    dispatch(
+      actionsAuth.setAuth({
+        id: data.id,
+        accessToken: data.tokens.accessToken,
+        refreshToken: data.tokens.refreshToken
+      })
+    );
+    setTimeout(() => {
+      socket.emit("refreshTokens", {
+        refreshToken: data.tokens.refreshToken
+      },
+      (data)=>{
+        console.log(data,'_verification:token')
+      }
+      );
+    }, 12000000);
+    setverification(false);
+    _setBodyStyle(true);
+    dispatch(actionsCard.setList(data.canvasData));
   };
 
   return (

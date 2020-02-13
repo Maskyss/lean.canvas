@@ -1,4 +1,3 @@
-export { getData } from "./workerGetData";
 export { addCard } from "./workerAddCard";
 export { deleteCard } from "./workerDeleteCard";
 export { editCard } from "./workerEditCard";

@@ -6,43 +6,50 @@ import { Container, BorderContainer } from "../mainStyles";
 
 import { connect } from "react-redux";
 
-import { Button, Subtitle, MainTitle,PopupMessage } from "../../_popup/mainStyles";
+import {
+  Button,
+  Subtitle,
+  MainTitle,
+  PopupMessage
+} from "../../_popup/mainStyles";
 import { InputC } from "../../_popup/CreateNew/styles";
 import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
 import { socket } from "../../../REST/api";
 
-const Verification = ({ verification,createNewCanva }) => {
+const Verification = ({ verification, createNewCanva }) => {
   const [password, setpassword] = useState("");
-  const [spinner, setspinner] = useState(false)
-  const [errorClient, seterrorClient] = useState(false)
-
-
+  const [spinner, setspinner] = useState(false);
+  const [errorClient, seterrorClient] = useState(false);
 
   const _handleInput = e => {
-    if(errorClient){
-      seterrorClient(false)
+    if (errorClient) {
+      seterrorClient(false);
     }
     setpassword(e.target.value);
   };
 
   const _openRoom = () => {
     const url = window.location.pathname.substring(1);
-    setspinner(true)
+    setspinner(true);
+    console.log(url, password, "url,pass,joinCanvasRoom");
+
     socket.emit("joinCanvasRoom", { canvasId: url, password }, data => {
+      console.log(data, "joinCanvasRoom");
       setTimeout(() => {
-        setspinner(false)
+        setspinner(false);
         if (data.statusCode === 400) {
-          seterrorClient(true)
-        }else{
-          verification(data)
+          seterrorClient(true);
+        } else {
+          verification(data);
+          localStorage.setItem("id", data.id);
+          localStorage.setItem("password", password);
         }
       }, 1000);
-     
     });
   };
-  
+
   return (
-    <BorderContainer  >
+    <BorderContainer>
       <Container style={{ height: "42rem" }} id="containerCreate">
         <MainTitle id="createNewC">Verification</MainTitle>
         <Subtitle style={{ marginBottom: "2rem" }}>
@@ -61,23 +68,26 @@ const Verification = ({ verification,createNewCanva }) => {
               name="password"
             />
           </div>
-          <Button blue   onClick={() => _openRoom()}>
-           {
-             spinner?<div className='spinner'/> : `Verification`
-           } 
+          <Button blue onClick={() => _openRoom()}>
+            {spinner ? <div className="spinner" /> : `Verification`}
           </Button>
-        {errorClient && (
-          <PopupMessage style={{ right: "5rem",bottom:'15.5rem' }} >
-            You dont have access  
-          </PopupMessage>
-        )}
+          {errorClient && (
+            <PopupMessage style={{ right: "5rem", bottom: "15.5rem" }}>
+              You dont have access
+            </PopupMessage>
+          )}
         </DivWithAccess>
-        <Subtitle >
-        <hr className="hr-text" data-content="Or you can create new canva"/>
+        <Subtitle>
+          <hr className="hr-text" data-content="Or you can create new canva" />
         </Subtitle>
-        <Button  style={{ margin: 'auto'}} onClick={()=>{createNewCanva()}}>
-            Create New
-          </Button>
+        <Button
+          style={{ margin: "auto" }}
+          onClick={() => {
+            createNewCanva();
+          }}
+        >
+          Create New
+        </Button>
       </Container>
     </BorderContainer>
   );

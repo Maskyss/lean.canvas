@@ -1,18 +1,17 @@
-import img0 from "../../static/icons/0.svg";
-import img01 from "../../static/icons/01.svg";
-import img1 from "../../static/icons/1.svg";
-import img2 from "../../static/icons/2.svg";
-import img3 from "../../static/icons/3.svg";
-import img4 from "../../static/icons/4.svg";
-import img5 from "../../static/icons/5.svg";
-import img6 from "../../static/icons/6.svg";
-import img7 from "../../static/icons/7.svg";
-
+import img0 from "../static/icons/0.svg";
+import img01 from "../static/icons/01.svg";
+import img1 from "../static/icons/1.svg";
+import img2 from "../static/icons/2.svg";
+import img3 from "../static/icons/3.svg";
+import img4 from "../static/icons/4.svg";
+import img5 from "../static/icons/5.svg";
+import img6 from "../static/icons/6.svg";
+import img7 from "../static/icons/7.svg";
 
 const segments = [
   [
     {
-      id: 'problem',
+      id: "problem",
       title: "Problem",
       subtitle: "List your top 1-3 problems",
       img: img0
@@ -20,13 +19,13 @@ const segments = [
   ],
   [
     {
-      id: 'solution',
+      id: "solution",
       title: "Solution",
       subtitle: "Outline a possible solution for each problem",
       img: img01
     },
     {
-      id: 'keyMetrics',
+      id: "keyMetrics",
       title: "Key Metrics",
       subtitle: "List the key numbers that tell you how business is doing",
       img: img1
@@ -34,7 +33,7 @@ const segments = [
   ],
   [
     {
-      id: 'uniqueValueProposition',
+      id: "uniqueValueProposition",
       title: "Unique Value Proposition",
       subtitle:
         "Signle, clear, cometting message that states why you are different and worth paying attention",
@@ -43,13 +42,13 @@ const segments = [
   ],
   [
     {
-      id: 'unfairAdvantage',
+      id: "unfairAdvantage",
       title: "Unfair Advantage",
       subtitle: "Something that cannot be easily brought or copied",
       img: img3
     },
     {
-      id: 'channels',
+      id: "channels",
       title: "Channels",
       subtitle: "List your path to customers (Inbound or outbound)",
       img: img4
@@ -57,7 +56,7 @@ const segments = [
   ],
   [
     {
-      id: 'customerSegment',
+      id: "customerSegment",
       title: "Customer Segments",
       subtitle: "List your target customers and users",
       img: img5
@@ -67,14 +66,14 @@ const segments = [
 
 const segments1 = [
   {
-    id: 'costStructure',
+    id: "costStructure",
 
     title: "Cost Structure",
     subtitle: "List your fixed and variable costs.",
     img: img6
   },
   {
-    id: 'revenueStreams',
+    id: "revenueStreams",
 
     title: "Revenue Streams",
     subtitle: "List your sources of revenue.",
@@ -82,4 +81,29 @@ const segments1 = [
   }
 ];
 
-export { segments, segments1 };
+const stylesAfterScroll = {
+  position: "fixed",
+  bottom: "-10rem",
+  top: "auto",
+
+  zIndex: "100"
+};
+const stylesScroll = {
+  position: "fixed",
+  bottom: "0rem",
+  top: "auto",
+
+  zIndex: "100"
+};
+const stylesScrollMain = {
+  position: "static",
+  bottom: "auto",
+  zIndex: "0"
+};
+export {
+  segments,
+  segments1,
+  stylesAfterScroll,
+  stylesScroll,
+  stylesScrollMain
+};

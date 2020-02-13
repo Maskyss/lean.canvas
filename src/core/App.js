@@ -1,46 +1,25 @@
 //Core
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-// import io from "socket.io-client";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { actionsCard } from "../bus/card/actions";
 
 import { socket } from "../REST/api";
-import Canvas from '../components/Canvas';
+import Canvas from "../components/Canvas";
 
-
-
-// const socket = io(`http://localhost:6001/`);
-
-const App = ({}) => {
+const App = () => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on('canvasUpdated', (data)=>{
-      console.log(data,'data')
-    })
-    socket.on("connect", () => {
-      console.log('connected');
+    socket.on("canvasUpdated", data => {
+      dispatch(actionsCard.setList(data.canvasData));
     });
-   
-
-    // socket.on("disconnect", () => {
-    //   setOnline(false);
-    // });
-    
-    // socket.on("errorMessage", data => console.log("Error!", data));
-    // socket.on("joinedRoom", data => console.log(data));
-
-    // socket.on("canvasUpdated", data => console.log(data));
-    // socket.on("canvasCreated", data => console.log(data));
-    // socket.on("newTokens", data => console.log(data));
-
-    // socket.emit("createCanvas", { canvasData:cardList, ...authData });
+    socket.on("connect", () => {
+      console.log("connected");
+    });
   }, []);
-  // const _createCanvas=()=>  {
-    
-  //   // socket.emit("createCanvas", { canvasData:cardList, password:'', title:''})}
 
-  return (
-      <Canvas  />
-  );
+  return <Canvas />;
 };
 
 export default App;

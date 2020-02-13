@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { actionsCard } from "../../../bus/card/actions";
+import { socket } from "../../../REST/api";
 
 import CanvasForm from "../CanvasForm/index";
 
@@ -9,9 +10,17 @@ import { CardDiv, DotsImg } from "./styles";
 
 import dots from "../../../static/dots.svg";
 
+const CanvasCardNoDragg = ({ text, listID }) => {
+  const cardList = useSelector(state =>
+    state.updateCardReducer.get("cardList")
+  );
+  const {id:canvasId,accessToken:token } = useSelector(
+    state => state.updateAuthReducer.get("authData")
+  );
+  // const token = useSelector(
+  //   state => state.updateAuthReducer.get("authData").accessToken
+  // );
 
-const CanvasCardNoDragg = React.memo(({ text, listID,  }) => {
-  const cardList = useSelector(state => state.updateCardReducer.get("cardList"));
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -20,22 +29,14 @@ const CanvasCardNoDragg = React.memo(({ text, listID,  }) => {
   const [coords, setCoords] = useState([0, 0]);
 
   function showSelection() {
-    // var e = window.event;
-    // var posX = e.clientX - $("#border").offset().left;
-    // var posY = e.clientY - $("#border").offset().top;
+    
 
     if (window.getSelection().toString() !== "") {
       setSelect(true);
       const parentEl = window.getSelection().anchorNode.parentElement;
-      // console.log(posY)
-      // if (posY > 0) {
-      //   console.log(posY)
-      //   setCoords([parentEl.offsetHeight +10 + "px",5 + "px"]);
-      // } else {
-      // console.log(posY,parentEl.offsetHeight)
+    
 
       setCoords([parentEl.offsetHeight + 100 + "px", 5 + "px"]);
-      // }
     } else {
       setSelect(false);
     }
@@ -49,22 +50,33 @@ const CanvasCardNoDragg = React.memo(({ text, listID,  }) => {
   };
 
   const handleAddCard = () => {
-    if(valRef.current===''){
+    if (valRef.current === "") {
       setcardText("+");
 
       setIsEditing(false);
       setSelect(false);
-    }
-    else {
+    } else {
       setcardText(valRef.current);
       setIsEditing(false);
       setSelect(false);
-      dispatch(actionsCard.addCard([{ text: valRef.current, listID }, cardList]));
+      dispatch(
+        actionsCard.addCard([{ text: valRef.current, listID }, cardList])
+      );
+      socket.emit(
+        "updateCanvas",
+        { canvasId, canvasData: cardList, token },
+        data => {
+          console.log(data, 'addCard')
+
+          if (data.statusCode !== undefined) {
+            window.alert("something wrong");
+          }
+        }
+      );
       setcardText("+");
     }
-    
 
-    return;
+    return null;
   };
 
   const openForm = () => {
@@ -93,6 +105,6 @@ const CanvasCardNoDragg = React.memo(({ text, listID,  }) => {
   };
 
   return renderCard();
-});
+};
 
 export default CanvasCardNoDragg;

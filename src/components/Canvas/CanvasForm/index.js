@@ -32,7 +32,7 @@ const CanvasForm = ({
     <>
       <StyledTextArea
         style={{ fontSize: "12px", color: white }}
-        onChange={React.useCallback(handleChange)}
+        onChange={handleChange}
         onBlur={saveCard}
         tagName="div"
         html={cardText}

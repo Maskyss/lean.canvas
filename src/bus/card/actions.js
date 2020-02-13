@@ -1,13 +1,12 @@
 import { types } from "./types";
 
 export const actionsCard = {
-  getList:()=>({
-    type: types.GET_LIST,
-  }),
+  
   setList:(payload)=>({
     type: types.SET_LIST,
     payload
   }),
+
   // setLocalStorage:()=>({
   //   type: types.SET_LIST,
   // }),

@@ -14,8 +14,6 @@ export function* editCard({ payload }) {
       });
   
       yield put(actionsCard.setList(state[0]));
-      localStorage.setItem("cardList",JSON.stringify(state[0]));
-
     } catch (err) {
       console.log(err);
     }
