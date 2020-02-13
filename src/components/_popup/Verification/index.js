@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
-
-// import {  BorderContainer } from "./styles";
-
-import { Container, BorderContainer } from "../mainStyles";
-
-import { connect } from "react-redux";
+import React, { useState } from "react";
 
 import {
+  Container,
+  BorderContainer,
   Button,
+  DivWithAccess,
+  Access,
   Subtitle,
   MainTitle,
-  PopupMessage
-} from "../../_popup/mainStyles";
-import { InputC } from "../../_popup/CreateNew/styles";
-import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
+  PopupMessage,
+  InputC
+} from "../mainStyles";
+
 import { socket } from "../../../REST/api";
 
 const Verification = ({ verification, createNewCanva }) => {
@@ -31,13 +29,13 @@ const Verification = ({ verification, createNewCanva }) => {
   const _openRoom = () => {
     const url = window.location.pathname.substring(1);
     setspinner(true);
-    console.log(url, password, "url,pass,joinCanvasRoom");
 
     socket.emit("joinCanvasRoom", { canvasId: url, password }, data => {
       console.log(data, "joinCanvasRoom");
+
       setTimeout(() => {
         setspinner(false);
-        if (data.statusCode === 400) {
+        if (data.statusCode !== undefined) {
           seterrorClient(true);
         } else {
           verification(data);

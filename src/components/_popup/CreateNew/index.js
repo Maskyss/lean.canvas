@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { Container, BorderContainer } from "../mainStyles";
 import {
+  BorderContainer,
+  Container,
   Button,
   Subtitle,
   MainTitle,
-  PopupMessage
-} from "../../_popup/mainStyles";
+  PopupMessage,
+  Access,
+  InputC
+} from "../mainStyles";
+
 import { actionsAuth } from "../../../bus/auth/actions";
-import { InputC } from "./styles";
-import { DivWithAccess, Access } from "../../_shared/PopupStandard/styles";
-import { useSelector, useDispatch } from "react-redux";
+
 import { socket } from "../../../REST/api";
 
 const defaultPopup = "Title or code is empty";
@@ -48,7 +51,10 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
       "createCanvas",
       { canvasData: cardList, password, title },
       data => {
-        console.log("createCanvas", data);
+        // console.log("createCanvas", data);
+        if (data.statusCode !== undefined) {
+          window.alert("something wrong");
+        }else{
         dispatch(
           actionsAuth.setAuth({
             id: data.id,
@@ -58,13 +64,16 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
         );
 
         setTimeout(() => {
-          console.log(data.tokens.refreshToken)
-          socket.emit("refreshTokens", {
-            refreshToken: data.tokens.refreshToken
-          },
-          (data)=>{
-            console.log(data,'createCanvas:token')
-          });
+          console.log(data.tokens.refreshToken);
+          socket.emit(
+            "refreshTokens",
+            {
+              refreshToken: data.tokens.refreshToken
+            },
+            data => {
+              console.log(data, "createCanvas:token");
+            }
+          );
         }, 12000000);
 
         window.history.pushState(
@@ -75,6 +84,7 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
 
         localStorage.setItem("id", data.id);
         localStorage.setItem("password", password);
+      }
       }
     );
   };

@@ -98,7 +98,10 @@ const Canvas = () => {
                   refreshToken: data.tokens.refreshToken
                 },
                 (data)=>{
-                  console.log(data,'joinCanvasRoom:token')
+                  if (data.statusCode !== undefined) {
+                    console.log(data,'joinCanvasRoom:token')
+                    window.alert("something wrong");
+                  }
                 });
               }, 12000000);
             }
@@ -233,7 +236,10 @@ const Canvas = () => {
         refreshToken: data.tokens.refreshToken
       },
       (data)=>{
-        console.log(data,'_verification:token')
+        if (data.statusCode !== undefined) {
+          console.log(data,'joinCanvasRoom:token')
+          window.alert("something wrong");
+        }
       }
       );
     }, 12000000);

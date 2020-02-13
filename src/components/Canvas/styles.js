@@ -7,24 +7,24 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 5rem;
-  padding: 10rem 10% 0;
+  padding: 6rem 10% 0;
 
   @media ${themes.device.laptopL} {
-    padding: 10rem 15% 0;
+    padding: 6rem 15% 0;
   }
 
   @media ${themes.device.laptopS} {
-    padding: 10rem 10% 0;
+    padding: 6rem 10% 0;
   }
   @media ${themes.device.tablet} {
-    padding: 7rem 7% 0;
+    padding: 4rem 7% 0;
 
     flex-direction: column;
     align-items: flex-start;
     height:20rem;
   }
   @media ${themes.device.tabletS} {
-    padding: 5rem 3% 0;
+    padding: 4rem 3% 0;
     margin-bottom: 3rem;
     height:17rem;
 

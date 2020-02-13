@@ -2,7 +2,6 @@ import React from "react";
 import { Segment, WithImage, Image, Title } from "./styles";
 import { Droppable } from "react-beautiful-dnd";
 import CanvasCard from "../CanvasCard/index";
-import ErrorBoundary from "../ErrorBoundary/index";
 
 import CanvasCardNoDragg from "../CanvasCard/withoutDragg";
 import ScrollToBottom from "react-scroll-to-bottom";

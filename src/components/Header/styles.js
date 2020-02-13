@@ -7,10 +7,7 @@ const HeaderCustom = styled.header`
 
   font-size: 1.5rem;
   font-weight: 300;
-  position: fixed;
   background: ${themes.colors.mainColor};
-  left: 0;
-  top: 0;
 
   padding: 2rem 10% 2rem 10%;
   width: 100%;

@@ -48,6 +48,7 @@ const Container = styled.div`
     #popupCreate{
       right: 10.5rem !important;
     }
+   
   }
 
   @media ${themes.device.mobileM} {
@@ -227,4 +228,38 @@ position: absolute;
   
 }
 `
-export { Container, BorderContainer, Close, Button, Subtitle, MainTitle,PopupMessage };
+const Access = styled(Subtitle)`
+  font-size: 1.2rem;
+  @media (max-width:400px){
+    margin-bottom:1rem !important
+    ;
+
+  }
+`;
+
+const DivWithAccess = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  align-items: flex-end;
+`;
+const InputC = styled.input`
+  color: black;
+  font-size: 1.7rem;
+
+  padding: 1rem 0;
+
+  border: 0;
+  outline: 0;
+  border-bottom: 1px solid #0e0e0e;
+  user-select: text;
+
+  :-webkit-autofill,
+  :-webkit-autofill:hover,
+  :-webkit-autofill:focus,
+  :-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 8rem white inset !important;
+    z-index: unset;
+  }
+`;
+export { Container, BorderContainer, Close, Button, Subtitle, MainTitle,PopupMessage,Access, DivWithAccess,InputC };
