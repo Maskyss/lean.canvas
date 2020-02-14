@@ -41,6 +41,7 @@ const ShareComponent = ({ togglePopup }) => {
     setMainLink(window.location.href);
     setmobile(window.screen.width <= 530);
     setCode(localStorage.getItem("password"));
+    console.log(window.location.href)
   }, []);
 
   const _copyLink = () => {
@@ -121,7 +122,7 @@ const ShareComponent = ({ togglePopup }) => {
                         ? { marginLeft: 0, backgroundColor: item.color }
                         : { backgroundColor: item.color }
                     }
-                    href={item.link + mainLink}
+                    href={item.link }
                     key={i}
                   >
                     <img src={item.image} alt="img" />

@@ -13,7 +13,7 @@ import {
   InputC
 } from "../mainStyles";
 import { socket } from "../../../REST/api";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import styled from "styled-components";
 
@@ -26,23 +26,35 @@ const SendPdfComponent = ({ togglePopup }) => {
   const { accessToken: token } = useSelector(state =>
     state.updateAuthReducer.get("authData")
   );
+  const [spinner, setspinner] = useState(false);
 
-  const [copy, setCopy] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [notsent, setNotSent] = useState(false);
+
   const [email, setemail] = useState("");
 
-  const _copyText = () => {
+  const _sendPdf = e => {
+    e.preventDefault();
+    setspinner(true);
+
     socket.emit(
       "sendPdf",
       {
         canvasId: localStorage.getItem("id"),
-       email,
-       token
+        email,
+        token
       },
-      (data) => {
-        console.log(data)
-        if (data.statusCode !== undefined) {
-
-        } 
+      data => {
+        setTimeout(() => {
+          setspinner(false);
+          if (data.success) {
+            setSent(true);
+            setNotSent(false);
+          } else {
+            setSent(false);
+            setNotSent(true);
+          }
+        }, 1000);
       }
     );
     // setCopy(true);
@@ -74,8 +86,11 @@ const SendPdfComponent = ({ togglePopup }) => {
             />
           </div>
 
-          <Button onClick={_copyText}>{"Send"}</Button>
-          {copy && <PopupC>{"Sent"}</PopupC>}
+          <Button onClick={_sendPdf}>
+            {spinner ? <div className="spinner" /> : `Send`}
+          </Button>
+          {sent && <PopupC>{"Successful sent"}</PopupC>}
+          {notsent && <PopupC>{"Something wrong, please check email"}</PopupC>}
         </DivWithAccess>
       </Container>
     </BorderContainer>
