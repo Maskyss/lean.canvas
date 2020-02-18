@@ -11,9 +11,10 @@ const CardContainer = styled.div`
       ? `border:1px solid #1B85E5;
     box-shadow: 5px 5px 15px -5px rgba(27,133,229,0.3); 
 
-    max-width: 20rem;
+    // max-width: 20rem;
     @media (max-width:768px){
       max-width: 100%;
+
       }
    
     `
@@ -37,18 +38,7 @@ const CardDiv = styled.div`
   padding-right: 2rem;
   display: flex;
 
-  ${props =>
-    props.isDragging
-      ? `
-   overflow:hidden;
-    max-width: 20rem;
-    @media (max-width:768px){
-      max-width: 100%;
-      }
-    `
-      : `
-    max-width: 100%;
-    `};
+
   .deleteBtnN {
     display: none;
 
