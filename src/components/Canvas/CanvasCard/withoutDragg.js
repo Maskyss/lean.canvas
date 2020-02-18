@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { actionsCard } from "../../../bus/card/actions";
 import { socket } from "../../../REST/api";
-
+import { Portal } from "react-portal";
+import PopupError from "../../_popup/PopupError";
 import CanvasForm from "../CanvasForm/index";
 
 import { CardDiv, DotsImg } from "./styles";
@@ -22,6 +23,7 @@ const CanvasCardNoDragg = ({ text, listID }) => {
   // );
 
   const dispatch = useDispatch();
+  const [error, seterror] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setcardText] = useState(text);
@@ -88,6 +90,13 @@ const CanvasCardNoDragg = ({ text, listID }) => {
 
   const renderCard = () => {
     return (
+      <>
+      {error && (
+        <Portal>
+          <PopupError
+          />
+        </Portal>
+      )}
       <CardDiv style={{ fontSize: "12px" }} onClick={() => openForm()}>
         <DotsImg src={dots} />
 
@@ -100,8 +109,9 @@ const CanvasCardNoDragg = ({ text, listID }) => {
           coords={coords}
           select={select}
         />
-      </CardDiv>
+      </CardDiv> </>
     );
+   
   };
 
   return renderCard();

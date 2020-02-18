@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { Portal } from "react-portal";
-// import lottie from "lottie-web";
 
+import PopupError from "../_popup/PopupError";
 import { useDispatch, useSelector } from "react-redux";
 
 import { actionsCard } from "../../bus/card/actions";
@@ -21,18 +21,19 @@ import Verification from "../_popup/Verification";
 
 import { Container, MainTitle, Header } from "./styles";
 import { stylesAfterScroll, stylesScrollMain, stylesScroll } from "../../utils";
-const initState={
 
-  problem:[],
-  solution:[],
-  keyMetrics:[],
-  uniqueValueProposition:[],
-  unfairAdvantage:[],
-  channels:[],
-  customerSegment:[],
-  costStructure:[],
-  revenueStreams:[],
-}
+const initState = {
+  problem: [],
+  solution: [],
+  keyMetrics: [],
+  uniqueValueProposition: [],
+  unfairAdvantage: [],
+  channels: [],
+  customerSegment: [],
+  costStructure: [],
+  revenueStreams: []
+};
+
 const Canvas = () => {
   const cardList = useSelector(state =>
     state.updateCardReducer.get("cardList")
@@ -52,6 +53,7 @@ const Canvas = () => {
   const [createNewCanva, setcreateNewCanva] = useState(false);
 
   const [mobile, setMobile] = useState(false);
+  const [error, seterror] = useState(false);
 
   const [scrollTo, setscrollTo] = useState(false);
   const [scrollTo2, setscrollTo2] = useState(false);
@@ -64,7 +66,6 @@ const Canvas = () => {
 
     if (window.location.pathname === "/") {
       _createNewCanva();
-      
     } else {
       if (
         localStorage.getItem("id") !== window.location.pathname.substring(1)
@@ -72,7 +73,6 @@ const Canvas = () => {
         setverification(true);
         _setBodyStyle(verification);
       } else {
-
         socket.emit(
           "joinCanvasRoom",
           {
@@ -83,7 +83,6 @@ const Canvas = () => {
             if (data.statusCode !== undefined) {
               setverification(true);
               _setBodyStyle(verification);
-
             } else {
               dispatch(actionsCard.setList(data.canvasData));
               dispatch(
@@ -94,15 +93,18 @@ const Canvas = () => {
                 })
               );
               setTimeout(() => {
-                socket.emit("refreshTokens", {
-                  refreshToken: data.tokens.refreshToken
-                },
-                (data)=>{
-                  if (data.statusCode !== undefined) {
-                    console.log(data,'joinCanvasRoom:token')
-                    window.alert("something wrong");
+                socket.emit(
+                  "refreshTokens",
+                  {
+                    refreshToken: data.tokens.refreshToken
+                  },
+                  data => {
+                    if (data.statusCode !== undefined) {
+                      seterror(true);
+                      console.log(data, "joinCanvasRoom:token");
+                    }
                   }
-                });
+                );
               }, 12000000);
             }
           }
@@ -139,7 +141,8 @@ const Canvas = () => {
       data => {
         console.log(data, "dragHappaned");
         if (data.statusCode !== undefined) {
-          window.alert("something wrong");
+          seterror(true);
+          console.log(data, "updateCanvas:token");
         }
       }
     );
@@ -232,15 +235,17 @@ const Canvas = () => {
       })
     );
     setTimeout(() => {
-      socket.emit("refreshTokens", {
-        refreshToken: data.tokens.refreshToken
-      },
-      (data)=>{
-        if (data.statusCode !== undefined) {
-          console.log(data,'joinCanvasRoom:token')
-          window.alert("something wrong");
+      socket.emit(
+        "refreshTokens",
+        {
+          refreshToken: data.tokens.refreshToken
+        },
+        data => {
+          if (data.statusCode !== undefined) {
+            console.log(data, "joinCanvasRoom:token");
+            seterror(true);
+          }
         }
-      }
       );
     }, 12000000);
     setverification(false);
@@ -250,11 +255,6 @@ const Canvas = () => {
 
   return (
     <>
-      {/* {preloader && (
-        <Portal>
-          <PreloaderComponent />
-        </Portal>
-      )} */}
       <Container>
         <Header id="non-printable">
           <MainTitle>Lean Canvas</MainTitle>
@@ -267,7 +267,7 @@ const Canvas = () => {
           />
         </Header>
 
-            <BlockSegmentsComponent onDragEnd={_onDragEnd}/>
+        <BlockSegmentsComponent onDragEnd={_onDragEnd} />
         {mobile && (
           <BorderBtn
             id="nonDiv"
@@ -281,7 +281,11 @@ const Canvas = () => {
           />
         )}
       </Container>
-
+      {error && (
+        <Portal>
+          <PopupError />
+        </Portal>
+      )}
       {share && (
         <Portal>
           <ShareComponent

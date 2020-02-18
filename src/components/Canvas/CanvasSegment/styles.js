@@ -6,6 +6,7 @@ const Segment = styled.div`
   margin-bottom: 1rem;
   position: relative;
   height:61rem;
+  overflow: hidden;
   @media (min-width:1921px){
     width: 20%;
   }
@@ -19,6 +20,8 @@ const Segment = styled.div`
   }
 
   .droppable {
+  overflow: hidden;
+
     height: 83%;
     .inDroppable{
       height: 100%;

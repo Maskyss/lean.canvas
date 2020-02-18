@@ -17,7 +17,7 @@ const BlockSegments = styled.div`
   }
 
   .long {
-    width: 75%;
+    width: 75% ;
     height: 28rem;
     img{
       margin-right:2%;
@@ -33,7 +33,7 @@ const BlockSegments = styled.div`
       .inDroppable{
       height: 100%;
       }
-      height: 55%;
+      height: 70%;
       margin: 0 3%;
       overflow: scroll;
       overflow-x: hidden;
@@ -48,6 +48,8 @@ const SegmDiv = styled.div`
   @media (min-width:1921px){
     width: 20%;
   }
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
   width: 30rem;
@@ -61,6 +63,7 @@ const SegmDiv = styled.div`
     margin-bottom: 1rem;
     width: 100%;
     height: 30rem;
+
     @media ${themes.device.tablet} {
       height: 28rem;
     }

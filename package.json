@@ -1,5 +1,5 @@
 {
-  "name": "saturday-academy",
+  "name": "lean.canvas.fulcrum",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +17,7 @@
     "react-contenteditable": "^3.3.3",
     "react-dom": "^16.9.0",
     "react-html2pdf": "^1.0.1",
-    "react-portal": "^4.2.0",
+    "react-portal": "^4.2.1",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-router-redux": "^4.0.8",

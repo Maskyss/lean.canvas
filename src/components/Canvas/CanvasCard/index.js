@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Portal } from "react-portal";
+import PopupError from "../../_popup/PopupError";
 import { actionsCard } from "../../../bus/card/actions";
 
 import { CardDiv, DotsImg, CardContainer, DeleteButton } from "./styles";
@@ -21,6 +22,7 @@ const CanvasCard = ({ text, listID, id, index }) => {
   );
 
   const dispatch = useDispatch();
+  const [error, seterror] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [cardText, setcardText] = useState(text);
@@ -53,7 +55,8 @@ const CanvasCard = ({ text, listID, id, index }) => {
         console.log(data, "deleteCard");
 
         if (data.statusCode !== undefined) {
-          window.alert("something wrong");
+          seterror(true)
+
         }
       }
     );
@@ -77,7 +80,7 @@ const CanvasCard = ({ text, listID, id, index }) => {
         console.log(data, "editCard");
 
         if (data.statusCode !== undefined) {
-          window.alert("something wrong");
+          seterror(true)
         }
       }
     );
@@ -87,6 +90,13 @@ const CanvasCard = ({ text, listID, id, index }) => {
   };
 
   return (
+    <>
+    {error && (
+      <Portal>
+        <PopupError
+        />
+      </Portal>
+    )}
     <Draggable
       draggableId={String(id)}
       index={index}
@@ -127,6 +137,7 @@ const CanvasCard = ({ text, listID, id, index }) => {
         </CardContainer>
       )}
     </Draggable>
+    </>
   );
 };
 

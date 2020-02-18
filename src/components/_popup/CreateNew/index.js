@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Portal } from "react-portal";
+import PopupError from "../PopupError";
 
 import {
   BorderContainer,
@@ -23,6 +25,7 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
     state.updateCardReducer.get("cardList")
   );
   const dispatch = useDispatch();
+  const [error, seterror] = useState(false);
 
   const [title, settitle] = useState("");
   const [password, setpassword] = useState("");
@@ -53,7 +56,7 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
       data => {
         // console.log("createCanvas", data);
         if (data.statusCode !== undefined) {
-          window.alert("something wrong");
+          seterror(true)
         }else{
         dispatch(
           actionsAuth.setAuth({
@@ -71,7 +74,10 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
               refreshToken: data.tokens.refreshToken
             },
             data => {
-              console.log(data, "createCanvas:token");
+              if (data.statusCode !== undefined) {
+                seterror(true)
+              }
+              console.log(data, "refreshTokens:token");
             }
           );
         }, 12000000);
@@ -107,6 +113,13 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
   };
 
   return (
+    <>
+    {error && (
+      <Portal>
+        <PopupError
+        />
+      </Portal>
+    )}
     <BorderContainer>
       <Container style={{ height: "42rem" }} id="containerCreate">
         <MainTitle id="createNewC">Create new canva</MainTitle>
@@ -156,6 +169,7 @@ const CreateNewCanvaComponent = ({ createNewCanva }) => {
         </Button>
       </Container>
     </BorderContainer>
+    </>
   );
 };
 
